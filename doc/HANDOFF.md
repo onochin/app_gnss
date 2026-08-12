@@ -9,6 +9,8 @@
 - 移行元commit：`0ab1b5b1fff6355ec1ec6c1322c6c3f2a764a907`
 - 分離実施日：2026-08-13
 - 分離先：`/home/newono/ai_proj/app_simulation/gnss-learning-lab`
+- GitHub repository：`https://github.com/onochin/app_gnss`
+- GitHub Pages：`https://onochin.github.io/app_gnss/`
 - 移行元HEADのGNSS第1章～第7章を教材内容の変更なしで維持する。
 
 ## 2. 技術構成
@@ -134,7 +136,94 @@
 - `package.json`、`package-lock.json`はアプリ名だけを変更し、依存名・バージョンは不変。
 - `git remote -v`：出力なし。
 
-## 6. 容量運用
+## 6. GNSS独立化 Phase 2（2026-08-13）
+
+### 6.1 Git管理とGitHub
+
+- local repository：`/home/newono/ai_proj/app_simulation/gnss-learning-lab`
+- branch：`main`
+- remote：`origin = https://github.com/onochin/app_gnss.git`
+- tracking：`main -> origin/main`
+- Phase 1初回commit：`731cdaf64a352cd2deca6bb85ec38b0ebe23b54b`
+- Phase 2 Pages設定commit：`5a3f34bc2aefce52699c40259a429ebd342dc485`
+- GitHub repository：`https://github.com/onochin/app_gnss`
+- visibility：`PUBLIC`（既存`onochin/app_survey`と同じ）
+- default branch：`main`
+- remote側にREADME、`.gitignore`、LICENSE等の自動生成commitは作成していない。
+
+### 6.2 GitHub Pages
+
+- 公開方式：GitHub Actions custom workflow（`build_type = workflow`）
+- Pages base：`/app_gnss/`
+- 公開URL：`https://onochin.github.io/app_gnss/`
+- HTTPS強制：有効
+- workflow：`.github/workflows/deploy.yml`
+- 起動条件：`main`へのpush、または`workflow_dispatch`
+- `npm ci --ignore-scripts --no-audit --no-fund`、typecheck、test、Pages buildの成功後だけdeployする。
+- Pages artifactは`dist/`だけを対象とする。
+- Actionsは公式安定majorに対応するcommit SHAへ固定した。
+  - `actions/checkout` v7
+  - `actions/setup-node` v7
+  - `actions/configure-pages` v6
+  - `actions/upload-pages-artifact` v5
+  - `actions/deploy-pages` v5
+
+### 6.3 変更内容と維持事項
+
+- `vite.config.ts`
+  - 通常modeはbase `/`、`github-pages` modeだけbase `/app_gnss/`とした。
+- `.github/workflows/deploy.yml`
+  - 必要最小限の`contents: read`、`pages: write`、`id-token: write`でPages公開を追加した。
+- `README.md`
+  - repository、公開URL、Actionsによる公開経路を追記した。
+- `doc/HANDOFF.md`
+  - Git、GitHub、Pages、検証結果を現在状態へ更新した。
+- `src/components/gnss/`、GNSS関連7テスト、`src/styles.css`はPhase 1初回commitから差分0件。
+- `package.json`、`package-lock.json`はPhase 1初回commitから差分0件。
+- 第1章～第7章の教材本文、図、操作、固定値、計算、問題、安定ID、React状態を変更していない。
+- 第8章以降、GNSS学習記録、GNSS用`localStorage`は未実装。
+
+### 6.4 ローカル検証
+
+- `npm run typecheck -- --pretty false`：成功、型エラー0件。
+- `npm test -- --reporter=verbose`：成功、7テストファイル・98テストすべて成功。
+- `npm run build`：成功、34 modules transformed。
+  - `dist/index.html`：0.58 kB、gzip 0.41 kB。
+  - CSS：357.37 kB、gzip 52.70 kB。
+  - JS：557.83 kB、gzip 148.89 kB。
+- `npm run build -- --mode github-pages`：成功、34 modules transformed。
+  - `dist/index.html`：0.59 kB、gzip 0.42 kB。
+  - JS/CSS参照がともに`/app_gnss/assets/`配下であることを確認した。
+- `node --check scripts/gnss-smoke.mjs`：成功。
+- `git diff --check -- . ':(exclude)prompt/**'`：成功。
+- ローカルGNSS Playwrightスモーク：成功。
+  - 第1章～第7章、確認問題50問、主要操作、章往復時の状態保持、再読込み時の初期化を確認した。
+  - 全章のキーボード操作・可視フォーカスを確認した。
+  - 1366px：`clientWidth=1366 / scrollWidth=1366`。
+  - 390px：`clientWidth=390 / scrollWidth=390`。
+  - コンソールエラー0件、ページ例外0件、外部API通信0件。
+  - localStorageキー不変、GNSSキー追加なし。
+
+### 6.5 GitHub Actionsと公開版検証
+
+- 初回workflow run：`https://github.com/onochin/app_gnss/actions/runs/31621791758`
+- run結果：成功。deploy jobは41秒で完了した。
+- checkout、npm ci、typecheck、7ファイル・98テスト、34 modulesのPages build、Pages設定、artifact upload、deployがすべて成功した。
+- artifactは`dist/index.html`、CSS 1件、JS 1件だけで、最終圧縮サイズは202,338 bytes。
+- 公開トップ：HTTP 200、`text/html`、タイトル`GNSS測量`。
+- 公開JS：HTTP 200、557,839 bytes。
+- 公開CSS：HTTP 200、357,370 bytes。
+- 公開URLで完全なGNSS Playwrightスモークが成功した。
+  - 第1章～第7章、確認問題50問、主要操作、章往復状態保持、再読込み後初期化を確認した。
+  - 1366px：`clientWidth=1366 / scrollWidth=1366`。
+  - 390px：`clientWidth=390 / scrollWidth=390`。
+  - コンソールエラー0件、ページ例外0件、asset 404なし、外部API通信0件。
+- 公開確認画像：
+  - `/tmp/gnss-phase2-pages-1366-20260813.png`
+  - `/tmp/gnss-phase2-pages-390-20260813.png`
+  - 目視でも重大な文字重なり、欠け、ページ全体の横はみ出しなし。
+
+## 7. 容量運用
 
 - `node_modules`は新アプリ用に`npm ci`で個別作成した。移行元からコピーしていない。
 - 依存導入は移行元`.npm-cache`を`--offline --cache`で一時再利用した。
@@ -143,35 +232,35 @@
 - Playwrightブラウザをコピー・再取得していない。
 - Playwright保存方式の恒久変更は行っていない。
 - `dist`はコピーせず、通常build検証で新アプリ内に生成した。
-- 新しいローカルGitリポジトリを`main`で初期化した。commitとremoteは未設定。
-- 最終実測容量：全体122 MB、`node_modules` 119 MB、`dist` 912 KB、`.git` 124 KB。
+- npm cacheの恒久共有化、Playwrightブラウザの恒久共有化は行っていない。
+- 最終実測容量：全体123 MB、`node_modules` 119 MB、`dist` 912 KB、`.git` 1.2 MB。
 - `node_modules`、`dist`、`.git`を除くソース・資料は1.9 MB。
 
-## 7. 今回実施していないもの
+## 8. Phase 2で実施していないもの
 
 - 第8章以降の実装
 - GNSS学習記録・GNSS用`localStorage`
 - 新規npmパッケージ・依存バージョン更新
 - 元アプリからのGNSS削除
 - CSSの大規模整理・再設計
-- GitHub新規リポジトリ作成
-- remote追加、push
-- GitHub Pages設定・公開
-- `/app_gnss/`等の推測によるbase固定
+- JS 500 kB警告対策だけを目的としたコード分割
+- npm cache・Playwrightブラウザの恒久共有化
+- Playwrightブラウザのコピー・再取得
+- custom domain、repository rename、Release、tag、branch protection
 
-## 8. 残る注意点
+## 9. 残る注意点
 
 - `styles.css`は表示維持を優先して移行元全体を残しており、未使用の基礎・トラバースCSSを含む。
-- そのためCSS 357.37 kBとJS 500 kB超警告は残るが、Phase 1では大規模最適化を行わない。
-- READMEの通常スモーク手順は新アプリ内ブラウザ配置を前提とする。Phase 1検証では移行元ブラウザを一時参照した。
-- GitHub Pagesの公開baseはリポジトリ名確定後に設定する。
-- 初回commitは履歴方針確定前のため作成していない。`git status --short`では全成果物が未追跡として表示される。
+- そのためCSS 357.37 kBとJS 500 kB超警告は残るが、警告だけを理由とする大規模最適化は行わない。
+- 最新`actions/deploy-pages`内部から`punycode`非推奨警告が1件出たが、deployは成功した。
+- READMEの通常スモーク手順は新アプリ内ブラウザ配置を前提とする。Phase 2検証では移行元ブラウザを環境変数で一時参照した。
+- 移行元`survey-learning-lab`は本作業で変更していない。最終確認時に同プロジェクトには本作業外の既存差分があり、破棄・上書き・commitしていない。
 
-## 9. 次回開始地点
+## 10. 次回開始地点
 
 ```text
-GNSS独立化 Phase 2
-GitHubリポジトリ作成・Pages設定・公開確認
+GNSS独立化 Phase 2 完了
+次のPhaseはユーザー指示待ち
 ```
 
-第8章実装開始とはしない。
+共有キャッシュ・Playwright共用化、第8章以降の実装には着手しない。

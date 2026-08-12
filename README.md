@@ -1,10 +1,30 @@
 # GNSS測量
 
-GNSS測量を、図、ミニ操作、固定教材値、確認問題から段階的に学ぶローカルWebアプリです。
+GNSS測量を、図、ミニ操作、固定教材値、確認問題から段階的に学ぶWebアプリです。
 「測量理解ラボ」内で実装されたGNSS教材を、2026-08-13に独立アプリとして分離しました。
 
 > このアプリは学習用です。実務上の測量成果、公共測量、登記、設計、
 > 品質保証を必要とする計算や成果表の作成には使用しないでください。
+
+## 公開先
+
+- GitHub repository：[onochin/app_gnss](https://github.com/onochin/app_gnss)
+- GitHub Pages：[GNSS測量](https://onochin.github.io/app_gnss/)
+
+GitHub Pagesは、`main`へのpushを起点にGitHub Actionsで公開します。
+
+```text
+main push
+↓
+GitHub Actions
+↓
+typecheck / test / GitHub Pages build
+↓
+deploy
+```
+
+Pages用buildではViteの`github-pages` modeを使い、baseを`/app_gnss/`に設定します。
+通常のローカル起動・buildは引き続きbase `/`です。
 
 ## 現在利用できる章
 
@@ -18,7 +38,7 @@ GNSS測量を、図、ミニ操作、固定教材値、確認問題から段階�
 | 第6章 | 自前RTK② 補正情報を届ける | `gnss-correction-delivery` | available |
 | 第7章 | 自前RTK③ 基線解析とFIX | `gnss-baseline-fix` | available |
 
-第8章以降は今後追加予定です。Phase 1では実装していません。
+第8章以降は未実装です。
 
 ## 主な内容
 
@@ -61,6 +81,12 @@ npm run dev
 ```bash
 npm run build
 npm run preview
+```
+
+GitHub Pages用のbaseでbuildする場合：
+
+```bash
+npm run build -- --mode github-pages
 ```
 
 ## 検証
@@ -116,5 +142,4 @@ doc/
 - 移行元commit：`0ab1b5b1fff6355ec1ec6c1322c6c3f2a764a907`
 - 分離時点のGNSS：第1章～第7章
 
-Phase 1ではGitHubリポジトリ作成、remote設定、push、GitHub Pages公開を行っていません。
-公開設定はリポジトリ名確定後のGNSS独立化 Phase 2で扱います。
+GNSS独立化 Phase 2でGitHubリポジトリを新規作成し、GitHub ActionsによるPages公開を設定しました。
