@@ -66,9 +66,49 @@ try {
     "GNSS専用アプリまたは第1章を初期表示できません。",
   );
   const lessonNavigation = page.locator(".gnss-lesson-navigation");
+  const categoryToggles = lessonNavigation.locator(
+    ".gnss-navigation-category-toggle",
+  );
+  const baseStationRtkCategoryToggle = lessonNavigation.getByRole("button", {
+    name: /基準局RTK/,
+  });
+  const upcomingChapterEight = lessonNavigation.locator(
+    '[data-gnss-upcoming-lesson="8"]',
+  );
+  const desktopNavigationLayout = await lessonNavigation.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+
+    return {
+      position: window.getComputedStyle(element).position,
+      width: Math.round(rect.width),
+    };
+  });
   assert(
-    (await lessonNavigation.getByRole("button").count()) === 7,
-    "GNSS専用アプリの章ナビゲーションが7章ではありません。",
+    (await categoryToggles.count()) === 7 &&
+      (await lessonNavigation.locator("[data-lesson-navigation-id]").count()) ===
+        7 &&
+      (await upcomingChapterEight.count()) === 1 &&
+      (await upcomingChapterEight.locator("button").count()) === 0 &&
+      (await lessonNavigation
+        .locator('[data-lesson-navigation-id="gnss-overview"]')
+        .getAttribute("aria-current")) === "page" &&
+      desktopNavigationLayout.position === "sticky" &&
+      desktopNavigationLayout.width >= 236 &&
+      desktopNavigationLayout.width <= 260,
+    `PCカテゴリ型章ナビゲーションが正しくありません: ${JSON.stringify(desktopNavigationLayout)}`,
+  );
+  await baseStationRtkCategoryToggle.focus();
+  assert(
+    await hasVisibleKeyboardFocus(baseStationRtkCategoryToggle),
+    "カテゴリ開閉ボタンのキーボードフォーカスが視認できません。",
+  );
+  await page.keyboard.press("Enter");
+  assert(
+    (await baseStationRtkCategoryToggle.getAttribute("aria-expanded")) ===
+      "true" &&
+      (await upcomingChapterEight.isVisible()) &&
+      (await upcomingChapterEight.getByText("準備中", { exact: true }).isVisible()),
+    "基準局RTKカテゴリをキーボードで開けないか、第8章が準備中ではありません。",
   );
   await lessonNavigation
     .getByRole("button", { name: /第2章.*GNSSは何を観測しているのか/ })
@@ -1549,6 +1589,31 @@ try {
 
   const ownBaseIntroCard = page.getByTestId("gnss-own-base-intro-card");
   const ownBaseIntroText = await ownBaseIntroCard.innerText();
+  const ownBaseOverviewFlow = ownBaseIntroCard.getByTestId(
+    "gnss-own-base-overview-flow",
+  );
+  const desktopOwnBaseOverviewLayout = await ownBaseOverviewFlow.evaluate(
+    (element) => {
+      const items = Array.from(element.children);
+      const rect = element.getBoundingClientRect();
+
+      return {
+        height: Math.round(rect.height),
+        itemCount: items.length,
+        rowCount: new Set(
+          items.map((item) => Math.round(item.getBoundingClientRect().top)),
+        ).size,
+      };
+    },
+  );
+  const desktopDistinctionLayout = await ownBaseIntroCard
+    .locator(".gnss-own-base-distinction")
+    .evaluate((element) => ({
+      columnCount: window
+        .getComputedStyle(element)
+        .gridTemplateColumns.split(" ").length,
+      height: Math.round(element.getBoundingClientRect().height),
+    }));
   assert(
     [
       "基準局Aの座標が0.500 m違えば",
@@ -1558,9 +1623,30 @@ try {
       "GNSSを安定して観測できる場所へ設置する",
       "基準局として使う前に確認する",
       "測量成果の基準として適切な基準局をつくれた",
-    ].every((expectedText) => ownBaseIntroText.includes(expectedText)),
-    "第5章カード1の第4章接続、中心問い、準備フローが不足しています。",
+    ].every((expectedText) => ownBaseIntroText.includes(expectedText)) &&
+      desktopOwnBaseOverviewLayout.itemCount === 5 &&
+      desktopOwnBaseOverviewLayout.rowCount === 1 &&
+      desktopOwnBaseOverviewLayout.height < 160 &&
+      desktopDistinctionLayout.columnCount === 3 &&
+      desktopDistinctionLayout.height < 100,
+    `第5章カード1の内容またはPC横5ステップ表示が正しくありません: ${JSON.stringify({ desktopOwnBaseOverviewLayout, desktopDistinctionLayout })}`,
   );
+
+  if (saveScreenshots) {
+    const screenshotStyle = await page.addStyleTag({
+      content: ".app-header, .skip-link { visibility: hidden !important; }",
+    });
+    try {
+      await lessonNavigation.screenshot({
+        path: "/tmp/gnss-ui-reorg-phase1-sidebar-1366-20260818.png",
+      });
+      await ownBaseIntroCard.screenshot({
+        path: "/tmp/gnss-ui-reorg-phase1-card1-1366-20260818.png",
+      });
+    } finally {
+      await screenshotStyle.evaluate((style) => style.remove());
+    }
+  }
 
   const ownBaseElementsCard = page.getByTestId("gnss-own-base-elements-card");
   const ownBaseElementsText = await ownBaseElementsCard.innerText();
@@ -2809,22 +2895,22 @@ try {
     try {
       await page.screenshot({
         fullPage: true,
-        path: "/tmp/gnss-independent-phase1-1366-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-full-1366-20260818.png",
       });
       await baselineDoubleDifferenceCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card3-1366-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card3-1366-20260818.png",
       });
       await baselineCandidateCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card5-1366-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card5-1366-20260818.png",
       });
       await baselineVectorCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card6-1366-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card6-1366-20260818.png",
       });
       await baselineResultCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card8-1366-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card8-1366-20260818.png",
       });
       await baselineSummaryCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card9-1366-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card9-1366-20260818.png",
       });
     } finally {
       await screenshotStyle.evaluate((style) => style.remove());
@@ -2944,10 +3030,34 @@ try {
   );
 
   await page.setViewportSize({ width: 390, height: 844 });
+  const mobileNavigationDisclosure = lessonNavigation.locator(
+    ".gnss-navigation-disclosure",
+  );
+  const mobileNavigationSummary = mobileNavigationDisclosure.locator("summary");
+  const mobileNavigationLayout = await lessonNavigation.evaluate((element) => ({
+    position: window.getComputedStyle(element).position,
+    width: Math.round(element.getBoundingClientRect().width),
+  }));
   assert(
     (await lessonNavigation.isVisible()) &&
-      (await lessonNavigation.getByRole("button").count()) === 7,
-    "390px幅でGNSSの7章ナビゲーションを表示できません。",
+      (await mobileNavigationSummary.isVisible()) &&
+      !(await mobileNavigationDisclosure.getAttribute("open")) &&
+      mobileNavigationLayout.position === "static" &&
+      mobileNavigationLayout.width <= 366,
+    `390px幅でコンパクトな章ナビゲーションになりません: ${JSON.stringify(mobileNavigationLayout)}`,
+  );
+  if (saveScreenshots) {
+    await lessonNavigation.screenshot({
+      path: "/tmp/gnss-ui-reorg-phase1-navigation-compact-390-20260818.png",
+    });
+  }
+  await mobileNavigationSummary.click();
+  assert(
+    (await mobileNavigationDisclosure.getAttribute("open")) !== null &&
+      (await lessonNavigation.getByText("基礎編", { exact: true }).isVisible()) &&
+      (await lessonNavigation.getByText("基準局RTK", { exact: true }).isVisible()) &&
+      (await upcomingChapterEight.isVisible()),
+    "390px幅の章選択を開いてカテゴリまたは準備中の第8章を確認できません。",
   );
 
   assert(
@@ -2983,6 +3093,49 @@ try {
       };
     });
   await chapterFiveNavigationButton.click();
+  const mobileOwnBaseOverviewLayout = await ownBaseOverviewFlow.evaluate(
+    (element) => {
+      const items = Array.from(element.children);
+
+      return {
+        itemCount: items.length,
+        rowCount: new Set(
+          items.map((item) => Math.round(item.getBoundingClientRect().top)),
+        ).size,
+      };
+    },
+  );
+  const mobileDistinctionRowCount = await ownBaseIntroCard
+    .locator(".gnss-own-base-distinction > *")
+    .evaluateAll(
+      (elements) =>
+        new Set(
+          elements.map((element) =>
+            Math.round(element.getBoundingClientRect().top),
+          ),
+        ).size,
+    );
+  assert(
+    mobileOwnBaseOverviewLayout.itemCount === 5 &&
+      mobileOwnBaseOverviewLayout.rowCount === 5 &&
+      mobileDistinctionRowCount === 3,
+    `390px幅で第5章カード1が縦配置になりません: ${JSON.stringify({ mobileOwnBaseOverviewLayout, mobileDistinctionRowCount })}`,
+  );
+  if (saveScreenshots) {
+    const screenshotStyle = await page.addStyleTag({
+      content: ".app-header, .skip-link { visibility: hidden !important; }",
+    });
+    try {
+      await lessonNavigation.screenshot({
+        path: "/tmp/gnss-ui-reorg-phase1-navigation-390-20260818.png",
+      });
+      await ownBaseIntroCard.screenshot({
+        path: "/tmp/gnss-ui-reorg-phase1-card1-390-20260818.png",
+      });
+    } finally {
+      await screenshotStyle.evaluate((style) => style.remove());
+    }
+  }
   const mobileOwnBaseTableContainment = await Promise.all(
     [ownBaseCoordinateSourceTable, ownBaseFinalCheckTable].map((tableRegion) =>
       tableRegion.evaluate((element) => {
@@ -3128,22 +3281,22 @@ try {
     try {
       await page.screenshot({
         fullPage: true,
-        path: "/tmp/gnss-independent-phase1-390-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-full-390-20260818.png",
       });
       await baselineDoubleDifferenceCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card3-390-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card3-390-20260818.png",
       });
       await baselineCandidateCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card5-390-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card5-390-20260818.png",
       });
       await baselineVectorCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card6-390-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card6-390-20260818.png",
       });
       await baselineResultCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card8-390-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card8-390-20260818.png",
       });
       await baselineSummaryCard.screenshot({
-        path: "/tmp/gnss-independent-phase1-card9-390-20260813.png",
+        path: "/tmp/gnss-ui-reorg-phase1-card9-390-20260818.png",
       });
     } finally {
       await screenshotStyle.evaluate((style) => style.remove());
@@ -3181,6 +3334,11 @@ try {
         .isVisible()),
     "再読込み後にGNSS第1章と0 / 7章の初期進捗へ戻りません。",
   );
+  await page.locator(".gnss-navigation-disclosure > summary").click();
+  await page
+    .locator('[data-gnss-category-id="base-station-rtk"]')
+    .getByRole("button", { name: /基準局RTK/ })
+    .click();
   await page
     .locator(".gnss-lesson-navigation")
     .getByRole("button", { name: /第2章.*GNSSは何を観測しているのか/ })

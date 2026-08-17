@@ -1,6 +1,6 @@
 # GNSS学習アプリ HANDOFF
 
-最終更新日：2026-08-13
+最終更新日：2026-08-18
 
 ## 1. アプリ概要
 
@@ -259,8 +259,79 @@
 ## 10. 次回開始地点
 
 ```text
-GNSS独立化 Phase 2 完了
+GNSS UI再編 Phase 1 完了
+第8章以降は未実装
 次のPhaseはユーザー指示待ち
 ```
 
 共有キャッシュ・Playwright共用化、第8章以降の実装には着手しない。
+
+## 11. GNSS UI再編 Phase 1（2026-08-18）
+
+### 11.1 実装内容
+
+- PCの章ナビゲーションを、248px幅を基準とするstickyなカテゴリ型左サイドバーへ再編した。
+- カテゴリは、基礎編、基準局RTK、ネットワークRTK、CLAS測量、スタティック測量、後処理、応用編の順とした。
+- 既存の第1章～第7章を同じ安定章ID・章順で配置した。
+- 第8章「現場観測と点検」は、選択できない「準備中」表示だけを追加した。Lesson、教材データ、問題、正式な章IDは未実装。
+- 980px以下では左サイドバーを常設せず、現在章を示すコンパクトな章選択UIへ切り替えた。
+- 第5章カード1の章全体フローだけを、PCでは横5ステップ、760px以下では縦5ステップにした。他カードの具体的な縦フローは維持した。
+- 「GNSS受信機を設置できた ≠ 測量成果の基準として適切な基準局をつくれた」は、PCでコンパクトな横比較、狭い画面で縦配置とした。
+
+### 11.2 変更ファイル
+
+- `src/components/gnss/GnssLessonNavigation.tsx`
+- `src/components/gnss/gnssNavigation.ts`
+- `src/components/gnss/SurveyGnss.tsx`
+- `src/components/gnss/lessons/GnssOwnBaseStationLesson.tsx`
+- `src/styles.css`
+- `src/tests/gnssNavigation.test.ts`
+- `scripts/gnss-smoke.mjs`
+- `README.md`
+- `doc/HANDOFF.md`
+- `prompt/20260817_GNSS_UI再編_Phase1_PCカテゴリ型左サイドバーと第5章カード1のレイアウト改善.md`
+
+### 11.3 維持事項
+
+- 第1章～第7章の教材本文、図、操作、問題、固定値、計算、安定章ID、問題ID、選択肢ID、章順は変更していない。
+- `SurveyGnss`内で第1章～第7章の全Lessonを常時マウントし、非選択章を`hidden`にする方式を維持した。
+- 章往復時のReact操作状態・問題回答の保持、再読込み時の初期化を維持した。
+- GNSS用`localStorage`、外部API・実機通信・観測ファイル読込みは追加していない。
+- 新規npmパッケージ、依存更新、GitHub Pages設定変更は行っていない。Pages baseは`/app_gnss/`を維持した。
+
+### 11.4 最終ローカル検証
+
+- `npm run typecheck -- --pretty false`：成功、型エラー0件。
+- `npm test -- --reporter=verbose`：成功、8テストファイル・102テストすべて成功。
+- `npm run build`：成功、36 modules transformed。
+  - `dist/index.html`：0.58 kB、gzip 0.40 kB。
+  - CSS：360.04 kB、gzip 53.28 kB。
+  - JS：561.33 kB、gzip 149.93 kB。
+- `npm run build -- --mode github-pages`：成功、36 modules transformed。
+  - `dist/index.html`：0.59 kB、gzip 0.42 kB。
+  - CSS：360.04 kB、gzip 53.28 kB。
+  - JS：561.33 kB、gzip 149.93 kB。
+  - HTMLのJS/CSS参照が`/app_gnss/assets/`配下であることを確認した。
+- `node --check scripts/gnss-smoke.mjs`：成功。
+- `git diff --check -- . ':(exclude)prompt/**'`：成功。
+- ローカルGNSS Playwrightスモーク：成功。
+  - 第1章～第7章、確認問題50問、主要操作、章往復時の状態保持、再読込み時の初期化を確認した。
+  - キーボード操作、可視フォーカス、localStorageキー不変を確認した。
+  - 1366px：`clientWidth=1366 / scrollWidth=1366`。
+  - 390px：`clientWidth=390 / scrollWidth=390`。
+  - コンソールエラー0件、ページ例外0件、外部API通信0件。
+
+### 11.5 警告とPages公開確認
+
+- JSが500 kBを超える既知のVite警告は継続する。警告だけを理由とする最適化は実施していない。
+- 本節を含むcommitを`main`へpush後、GitHub Actionsと公開URLを確認する。公開確認の結果は本節へ追記する。
+
+### 11.6 次回開始地点
+
+```text
+GNSS UI再編 Phase 1 完了
+第8章以降は未実装
+次のPhaseはユーザー指示待ち
+```
+
+第8章教材、GNSS学習記録、GNSS用`localStorage`、CSS大規模整理には着手しない。

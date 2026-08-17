@@ -66,20 +66,30 @@ function GnssOwnBaseCardHeading({
 
 function GnssOwnBaseFlow({
   ariaLabel,
+  isOverview = false,
   steps,
 }: {
   readonly ariaLabel: string;
+  readonly isOverview?: boolean;
   readonly steps: readonly string[];
 }) {
   return (
     <ol
       aria-label={ariaLabel}
-      className="gnss-positioning-flow-diagram gnss-own-base-flow"
+      className={`gnss-positioning-flow-diagram gnss-own-base-flow ${isOverview ? "is-overview" : ""}`}
+      data-testid={isOverview ? "gnss-own-base-overview-flow" : undefined}
     >
       {steps.map((step, index) => (
         <li key={`${step}-${index}`}>
-          <span>{step}</span>
-          {index < steps.length - 1 ? <b aria-hidden="true">↓</b> : null}
+          <span>
+            {isOverview ? (
+              <small aria-hidden="true">{String(index + 1).padStart(2, "0")}</small>
+            ) : null}
+            {step}
+          </span>
+          {index < steps.length - 1 ? (
+            <b aria-hidden="true">{isOverview ? "→" : "↓"}</b>
+          ) : null}
         </li>
       ))}
     </ol>
@@ -220,6 +230,7 @@ function GnssOwnBaseStationLesson({
 
         <GnssOwnBaseFlow
           ariaLabel="自前RTKの基準局を準備する流れ"
+          isOverview
           steps={gnssOwnBaseStationOverviewFlow}
         />
         <blockquote className="gnss-important-message">
