@@ -324,7 +324,14 @@ GNSS UI再編 Phase 1 完了
 ### 11.5 警告とPages公開確認
 
 - JSが500 kBを超える既知のVite警告は継続する。警告だけを理由とする最適化は実施していない。
-- 本節を含むcommitを`main`へpush後、GitHub Actionsと公開URLを確認する。公開確認の結果は本節へ追記する。
+- UI再編commit：`496c3895ce41a6cdefef8b2720e9283183d389cb`。
+- GitHub Actions run：`https://github.com/onochin/app_gnss/actions/runs/32043170580`。
+  - deploy jobは38秒で完了し、typecheck、8ファイル・102テスト、36 modulesのPages build、artifact upload、deployがすべて成功した。
+- 公開URL：`https://onochin.github.io/app_gnss/`。
+  - 公開トップ、JS、CSSはいずれもHTTP 200。JSは561,335 bytes、CSSは360,046 bytes。
+  - 公開版で新しいPCカテゴリ型左サイドバー、モバイル章選択、第1章～第7章の移動、第8章の「準備中」表示を確認した。
+  - 1366pxは`clientWidth=1366 / scrollWidth=1366`、390pxは`clientWidth=390 / scrollWidth=390`で横スクロールなし。
+  - 公開版の完全なGNSS Playwrightスモークが成功し、コンソールエラー0件、ページ例外0件、asset 404なし、外部API通信0件、localStorageキー不変を確認した。
 
 ### 11.6 次回開始地点
 
