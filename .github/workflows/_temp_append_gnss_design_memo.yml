@@ -1,0 +1,242 @@
+name: Append GNSS practical design memo
+
+on:
+  push:
+    paths:
+      - ".github/workflows/_temp_append_gnss_design_memo.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  append:
+    if: github.event.head_commit.message == 'chore: prepare GNSS practical memo update'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Append practical-study reservation and remove temporary workflow
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("prompt/GNSS教材_設計メモ_20260812-3.md")
+          text = path.read_text(encoding="utf-8")
+          text = text.replace("最終更新日: 2026-08-24", "最終更新日: 2026-08-25", 1)
+
+          marker = "# 18. 実習編候補「ネットワークRTKの基準局・VRS仮想点を確認する」"
+          addition = r'''# 18. 実習編候補「ネットワークRTKの基準局・VRS仮想点を確認する」
+
+## 18.1 位置付け
+
+第10章本編の確定内容はこの設計メモへ重複して記録せず、今後実装する実習編の予約事項だけを残す。
+
+ネットワーク型RTKの実習では、次の実務上の疑問を中心に扱う。
+
+> P1とP2をネットワーク型RTKで観測したとき、同じ基準局・VRS仮想点を使っているのか。
+
+> 使用した基準側の情報は、Droggerの画面・セッション情報・出力データ等からどこまで確認できるのか。
+
+教材では、実在する基準局を自動選択するサービスと、VRS仮想基準点を使う方式を同じものとして扱わない。
+
+---
+
+## 18.2 実習の到達目標
+
+実習後に、少なくとも次を確認・説明できることを目標とする。
+
+- P1とP2で基準局座標が同じか比較できる
+- 再接続等により基準局またはVRS仮想点が変わる可能性を理解する
+- 測点を移動しただけで必ず基準側が変わるわけではないことを理解する
+- 実在基準局の切替とVRS仮想点の変更を区別する
+- Droggerの「セッション全点で同一基準局座標が必要」を使い、基準局座標の変化を検出する考え方を理解する
+- 必要に応じてVRSへ送る位置を固定し、基準側条件をそろえた観測と比較する
+- StationID等の識別情報が取得できる場合も、それを直ちに実在電子基準点の局名と同一視しない
+
+中心メッセージ：
+
+> **FIXしたかだけでなく、複数測点を同じ基準側条件で観測したかも確認できるようにする。**
+
+---
+
+## 18.3 実習ケース候補
+
+### ケースA：同じ基準側のままP1・P2を観測
+
+```text
+P1
+基準局座標 / VRS座標 = A
+  ↓
+観測
+  ↓
+P2
+基準局座標 / VRS座標 = A
+```
+
+P1とP2で基準側座標が同じであることを確認する。
+
+### ケースB：Ntrip再接続後に基準側が変わる
+
+```text
+P1
+基準局座標 = A
+  ↓
+Ntrip切断
+  ↓
+移動・再接続
+  ↓
+P2
+基準局座標 = B
+```
+
+現在位置から基準局を自動選択するサービス等では、接続時の条件により異なる基準局が選択される可能性があることを確認する。
+
+### ケースC：VRS仮想点が変わる
+
+```text
+P1
+VRS-A → P1
+
+P2
+VRS-B → P2
+```
+
+VRSでは「最寄りの実在電子基準点1局が変わった」と単純化せず、仮想基準点の座標が変わったケースとして扱う。
+
+### ケースD：送信位置を固定して比較
+
+DroggerのVRS関連設定で、現在位置ではなく指定位置等を送る運用を確認し、P1・P2で基準側条件がどのように変わるか、または変わらないかを比較する。
+
+正式な操作手順・設定名は実装時点のDrogger現行版で再確認する。
+
+---
+
+## 18.4 Droggerで確認したい項目
+
+実習教材では、少なくとも次の確認箇所を調査する。
+
+```text
+Drogger-GPS / セッション
+  ↓
+基準局座標
+同一基準局座標チェック
+VRSへ送信する位置
+接続先 / Mountpoint 等
+```
+
+Drogger公式マニュアルには「セッション全点で同一基準局座標が必要」の設定があり、VRS等で仮想点が変わる場合をエラーとして検出できる。
+
+一方、次は正式実習化する時点で、実機・現行アプリ・出力形式を使って確認してから教材化する。
+
+- 観測結果・セッション情報のどこに基準局座標が保存されるか
+- CSV、NMEA、観測手簿等のどの出力に基準側情報が残るか
+- StationID等が出力される場合、その値が何を識別しているか
+- StationIDから利用サービス上の実在基準局名まで特定できるか
+- VRSの場合に、仮想基準点座標と元になった実在電子基準点群をどこまで追跡できるか
+
+特に、
+
+```text
+StationID
+=
+実在電子基準点の局名
+```
+
+とは事前に決めつけない。
+
+VRSでは複数の電子基準点網から仮想基準点情報が生成されるため、「使用した電子基準点はこの1局」と表現できない場合がある。
+
+---
+
+## 18.5 実習の進め方候補
+
+```text
+① 利用するネットワークRTKサービス・方式を確認
+  ↓
+② P1でNtrip接続
+  ↓
+③ 基準局座標 / VRS座標・接続情報を記録
+  ↓
+④ P1を観測
+  ↓
+⑤ P2へ移動
+  ↓
+⑥ 接続継続または再接続
+  ↓
+⑦ P2の基準局座標 / VRS座標を記録
+  ↓
+⑧ P1とP2を比較
+  ↓
+⑨ 「セッション全点で同一基準局座標が必要」で変化検出を確認
+  ↓
+⑩ 必要に応じて送信位置固定あり / なしを比較
+```
+
+単に設定画面を見るだけでなく、観測前後の基準側情報を記録し、P1とP2で比較できる実習にする。
+
+---
+
+## 18.6 CLASとの比較は補助扱い
+
+必要に応じて最後にCLASと比較し、
+
+```text
+ネットワーク型RTK / VRS
+→ 基準局座標・VRS仮想点という基準側情報を確認
+
+CLAS
+→ 特定の基準局から移動局への基線を中心に考えない
+```
+
+ことを再確認する。
+
+この比較を使って、CLASについて「使用した基準局名を探す」という発想をそのまま当てはめないようにする。
+
+---
+
+## 18.7 正式要件化前の再確認
+
+この実習編を正式要件化するときは、必ず実装時点の最新情報と実機を確認する。
+
+優先する情報源：
+
+```text
+Drogger公式 VRS関連マニュアル
+https://www.bizstation.jp/ja/drogger/man/vrs.html
+
+Drogger公式 セッション関連マニュアル
+https://www.bizstation.jp/ja/drogger/man/session.html
+
+Drogger RTK Manual
+https://www.bizstation.jp/ja/drogger/man/Drogger_rtk_users_manual.pdf
+
+国土地理院のネットワーク型RTK / VRS関連の現行資料
+```
+
+確認時には、サービス事業者ごとの仕様も必要に応じて参照する。
+
+特に次はサービス依存・バージョン依存として扱い、推測で固定しない。
+
+- 基準局自動選択の仕組み
+- VRS仮想点の生成・更新条件
+- GGA等の位置送信条件
+- 基準局座標・StationIDの表示・保存箇所
+- 出力データから基準局名を特定できる範囲
+- 同一セッションとして扱える条件
+'''
+
+          if marker not in text:
+              text = text.rstrip() + "\n\n---\n\n" + addition.rstrip() + "\n"
+
+          path.write_text(text, encoding="utf-8")
+          PY
+
+          git rm .github/workflows/_temp_append_gnss_design_memo.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "prompt/GNSS教材_設計メモ_20260812-3.md"
+          git commit -m "docs: add network RTK practical study plan"
+          git push
