@@ -240,3 +240,5 @@ https://www.bizstation.jp/ja/drogger/man/Drogger_rtk_users_manual.pdf
           git add "prompt/GNSS教材_設計メモ_20260812-3.md"
           git commit -m "docs: add network RTK practical study plan"
           git push
+
+# trigger-second-push
