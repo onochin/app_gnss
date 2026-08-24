@@ -17,16 +17,16 @@ describe("GNSS UI再編 Phase 1 章ナビゲーション", () => {
     category.items.filter((item) => item.kind === "lesson"),
   );
 
-  it("第1章～第7章の安定章IDと順序を維持する", () => {
+  it("第1章～第8章の安定章IDと順序を維持する", () => {
     expect(lessonItems.map((item) => item.lesson.id)).toEqual(
       gnssLessons.map((lesson) => lesson.id),
     );
     expect(lessonItems.map((item) => item.lesson.number)).toEqual([
-      1, 2, 3, 4, 5, 6, 7,
+      1, 2, 3, 4, 5, 6, 7, 8,
     ]);
   });
 
-  it("基礎編へ第1章～第4章、基準局RTKへ第5章～第7章を配置する", () => {
+  it("基礎編へ第1章～第4章、基準局RTKへ第5章～第8章を配置する", () => {
     expect(
       getCategory("basics").items
         .filter((item) => item.kind === "lesson")
@@ -36,21 +36,19 @@ describe("GNSS UI再編 Phase 1 章ナビゲーション", () => {
       getCategory("base-station-rtk").items
         .filter((item) => item.kind === "lesson")
         .map((item) => item.lesson.number),
-    ).toEqual([5, 6, 7]);
+    ).toEqual([5, 6, 7, 8]);
   });
 
-  it("第8章表示は準備中でありLesson IDを持たない", () => {
-    const upcomingItem = getCategory("base-station-rtk").items.find(
-      (item) => item.kind === "upcoming",
-    );
-
-    expect(upcomingItem).toEqual({
-      kind: "upcoming",
-      number: 8,
-      title: "現場観測と点検",
-      status: "準備中",
+  it("第8章を基準局RTKの利用可能Lessonとして配置する", () => {
+    expect(getCategory("base-station-rtk").items.at(-1)).toMatchObject({
+      kind: "lesson",
+      lesson: {
+        id: "gnss-field-observation",
+        number: 8,
+        title: "自前RTK④ 現場観測と点検",
+      },
+      shortTitle: "現場観測と点検",
     });
-    expect(upcomingItem && "id" in upcomingItem).toBe(false);
   });
 
   it("未実装カテゴリは架空Lessonを生成しない", () => {

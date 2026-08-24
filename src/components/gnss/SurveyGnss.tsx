@@ -4,6 +4,7 @@ import { gnssLessons } from "./gnssCourse";
 import GnssBaselineFixLesson from "./lessons/GnssBaselineFixLesson";
 import GnssCorrectionDeliveryLesson from "./lessons/GnssCorrectionDeliveryLesson";
 import GnssCoordinateHeightLesson from "./lessons/GnssCoordinateHeightLesson";
+import GnssFieldObservationLesson from "./lessons/GnssFieldObservationLesson";
 import GnssOwnBaseStationLesson from "./lessons/GnssOwnBaseStationLesson";
 import GnssOverviewLesson from "./lessons/GnssOverviewLesson";
 import GnssObservationsLesson from "./lessons/GnssObservationsLesson";
@@ -124,6 +125,16 @@ function SurveyGnss({
           hidden={activeLessonId !== "gnss-baseline-fix"}
         >
           <GnssBaselineFixLesson
+            completedLessonCount={completedLessonCount}
+            totalLessonCount={totalLessonCount}
+          />
+        </div>
+
+        <div
+          className="gnss-lesson-panel"
+          hidden={activeLessonId !== "gnss-field-observation"}
+        >
+          <GnssFieldObservationLesson
             completedLessonCount={completedLessonCount}
             totalLessonCount={totalLessonCount}
           />

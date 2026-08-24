@@ -2,6 +2,7 @@ import {
   gnssBaselineFixLesson,
   gnssCorrectionDeliveryLesson,
   gnssCoordinateHeightLesson,
+  gnssFieldObservationLesson,
   gnssObservationsLesson,
   gnssOverviewLesson,
   gnssOwnBaseStationLesson,
@@ -15,13 +16,6 @@ export interface GnssNavigationLessonItem {
   readonly shortTitle: string;
 }
 
-export interface GnssNavigationUpcomingItem {
-  readonly kind: "upcoming";
-  readonly number: 8;
-  readonly status: "準備中";
-  readonly title: "現場観測と点検";
-}
-
 export interface GnssLessonCategory {
   readonly id:
     | "basics"
@@ -33,7 +27,6 @@ export interface GnssLessonCategory {
     | "advanced";
   readonly items: readonly (
     | GnssNavigationLessonItem
-    | GnssNavigationUpcomingItem
   )[];
   readonly status?: "準備中";
   readonly title: string;
@@ -82,10 +75,9 @@ export const gnssLessonCategories: readonly GnssLessonCategory[] = [
         shortTitle: "基線解析とFIX",
       },
       {
-        kind: "upcoming",
-        number: 8,
-        title: "現場観測と点検",
-        status: "準備中",
+        kind: "lesson",
+        lesson: gnssFieldObservationLesson,
+        shortTitle: "現場観測と点検",
       },
     ],
   },

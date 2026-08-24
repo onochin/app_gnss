@@ -94,9 +94,10 @@ describe("GNSS測量 Phase 7 第7章", () => {
       "gnss-own-base-station",
       "gnss-correction-delivery",
       "gnss-baseline-fix",
+      "gnss-field-observation",
     ]);
-    expect(gnssLessons).toHaveLength(7);
-    expect(gnssLessons.every((lesson) => lesson.number <= 7)).toBe(true);
+    expect(gnssLessons).toHaveLength(8);
+    expect(gnssLessons.slice(0, 7).every((lesson) => lesson.number <= 7)).toBe(true);
     expect(gnssQuizQuestions).toHaveLength(3);
     expect(gnssObservationsQuizQuestions).toHaveLength(7);
     expect(gnssCoordinateHeightQuizQuestions).toHaveLength(8);

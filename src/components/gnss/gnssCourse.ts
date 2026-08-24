@@ -217,6 +217,36 @@ export const gnssBaselineFixLesson = {
   ],
 } as const satisfies GnssLessonMetadata;
 
+export const gnssFieldObservationLesson = {
+  id: "gnss-field-observation",
+  number: 8,
+  title: "自前RTK④ 現場観測と点検",
+  description:
+    "FIXした結果を、観測内の安定性、独立した再FIX後の再現性、既知成果との整合性で点検し、成果候補とする判断を学ぶ。",
+  learningGoal:
+    "FIX表示だけで成果採用を決めない理由を理解し、観測前・観測中の確認、複数エポック、再初期化後の再FIX、既知点確認を通して、採用候補・再測・原因確認を判断し、その根拠を記録できる。",
+  terms: [
+    "安定性",
+    "再現性",
+    "整合性",
+    "複数エポック",
+    "再初期化",
+    "再FIX",
+    "既知点確認",
+    "セット間較差",
+    "採用候補",
+    "再測",
+    "原因確認",
+    "観測記録",
+  ],
+  cautions: [
+    "FIXは成果採用の重要な条件ですが、FIXだけで採用を決めません。",
+    "同じFIX中の安定性と、測位状態をリセットして再FIXした後の再現性を区別します。",
+    "Drogger固有の表示・操作は、一般的なGNSS・RTKの考え方に対応する実機例として扱います。",
+    "公共測量の数値は該当手法の標準例であり、すべてのRTKに共通する採否基準ではありません。",
+  ],
+} as const satisfies GnssLessonMetadata;
+
 export const gnssLessons = [
   gnssOverviewLesson,
   gnssObservationsLesson,
@@ -225,4 +255,5 @@ export const gnssLessons = [
   gnssOwnBaseStationLesson,
   gnssCorrectionDeliveryLesson,
   gnssBaselineFixLesson,
+  gnssFieldObservationLesson,
 ] as const;

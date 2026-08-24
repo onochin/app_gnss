@@ -37,14 +37,14 @@ Pages用buildではViteの`github-pages` modeを使い、baseを`/app_gnss/`に�
 | 第5章 | 自前RTK① 基準局をつくる | `gnss-own-base-station` | available |
 | 第6章 | 自前RTK② 補正情報を届ける | `gnss-correction-delivery` | available |
 | 第7章 | 自前RTK③ 基線解析とFIX | `gnss-baseline-fix` | available |
+| 第8章 | 自前RTK④ 現場観測と点検 | `gnss-field-observation` | available |
 
-第8章以降は未実装です。
+第9章以降は未実装です。
 
 ## 章ナビゲーション
 
-- PCでは、カテゴリ型の左サイドバーから第1章～第7章を選択します。
+- PCでは、カテゴリ型の左サイドバーから第1章～第8章を選択します。
 - モバイルでは、本文幅を優先したコンパクトな章選択UIを使用します。
-- 第8章「現場観測と点検」はナビゲーション上の「準備中」表示のみで、教材本体は未実装です。
 
 ## 主な内容
 
@@ -53,7 +53,8 @@ Pages用buildではViteの`github-pages` modeを使い、baseを`/app_gnss/`に�
 - 地心直交座標、緯度・経度・楕円体高、平面直角座標、標高
 - 単独測位、DGNSS、自前RTK、ネットワーク型RTK、CLAS、スタティック
 - 基準局準備、RTCM、Ntrip、FLOAT、FIX、3次元基線
-- 第1～7章の確認問題50問
+- FIX後の複数エポック、再初期化・再FIX、既知点確認、採用判断、観測記録
+- 第1～8章の確認問題59問
 
 教材値と図は学習用の固定例です。実行時の外部API通信、実機通信、観測ファイル読込みはありません。
 
@@ -116,7 +117,7 @@ Chromium Headless Shellが利用できる環境で次を実行します。
 env PLAYWRIGHT_BROWSERS_PATH=0 node scripts/gnss-smoke.mjs
 ```
 
-スモークは第1～7章、主要操作、確認問題、章往復時の状態保持、再読込み時の初期化、
+スモークは第1～8章、主要操作、確認問題、章往復時の状態保持、再読込み時の初期化、
 1366px・390px、キーボード操作、可視フォーカス、コンソールエラー、ページ例外、
 外部通信を確認します。既存スクリーンショットは上書きしません。
 
@@ -128,7 +129,7 @@ src/
 ├── main.tsx
 ├── styles.css
 ├── components/
-│   ├── gnss/                 # 第1～7章、教材データ、純粋関数、確認問題
+│   ├── gnss/                 # 第1～8章、教材データ、純粋関数、確認問題
 │   ├── layout/Header.tsx     # GNSS専用アプリの外枠
 │   └── basics/data/
 │       └── coordinateAndHeight.ts  # 第3章が参照する既存固定座標データ

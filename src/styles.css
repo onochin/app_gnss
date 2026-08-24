@@ -1486,6 +1486,1034 @@
   }
 }
 
+/* GNSS 第8章：現場観測と点検 */
+.gnss-field-session-note,
+.gnss-field-note {
+  margin: 8px 0 0;
+  color: var(--slate-600);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.gnss-field-opening-question,
+.gnss-field-regulation-note,
+.gnss-field-known-point-checks,
+.gnss-field-return-points,
+.gnss-field-next-chapter,
+.gnss-field-external-links,
+.gnss-field-record-example,
+.gnss-field-quiz-summary {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.gnss-field-opening-question {
+  background: #eef7ff;
+  border: 1px solid #bedcee;
+}
+
+.gnss-field-opening-question > span,
+.gnss-field-regulation-note > span,
+.gnss-field-known-point-example header span,
+.gnss-field-record-example header span,
+.gnss-field-next-chapter > span,
+.gnss-field-external-links > span {
+  color: #21618f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.gnss-field-opening-question p {
+  margin: 7px 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.gnss-field-opening-question strong {
+  display: block;
+  color: #173f60;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.gnss-field-quality-flow {
+  display: grid;
+  margin: 18px 0 0;
+  padding: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+}
+
+.gnss-field-quality-flow li {
+  position: relative;
+  min-width: 0;
+  padding: 14px 24px 14px 14px;
+  background: #f8fbfd;
+  border: 1px solid #d8e4eb;
+}
+
+.gnss-field-quality-flow li:first-child {
+  border-radius: 9px 0 0 9px;
+}
+
+.gnss-field-quality-flow li:last-child {
+  background: #eff9f4;
+  border-color: #b9dfca;
+  border-radius: 0 9px 9px 0;
+}
+
+.gnss-field-quality-flow li > span,
+.gnss-field-quality-flow li > strong,
+.gnss-field-quality-flow li > p {
+  display: block;
+}
+
+.gnss-field-quality-flow li > span {
+  color: #4c7188;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.gnss-field-quality-flow li > strong {
+  margin-top: 3px;
+  color: #173f60;
+  font-size: 14px;
+}
+
+.gnss-field-quality-flow li > p {
+  margin: 5px 0 0;
+  color: var(--slate-600);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.gnss-field-quality-flow li > b {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: -10px;
+  color: #21618f;
+  transform: translateY(-50%);
+}
+
+.gnss-field-check-grid,
+.gnss-field-monitor-grid,
+.gnss-field-record-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gnss-field-check-grid article,
+.gnss-field-monitor-grid article,
+.gnss-field-record-grid article {
+  min-width: 0;
+  padding: 14px;
+  background: #f8fbfd;
+  border: 1px solid #d8e4eb;
+  border-radius: 9px;
+}
+
+.gnss-field-check-grid article:last-child {
+  grid-column: 1 / -1;
+}
+
+.gnss-field-check-grid h3,
+.gnss-field-monitor-grid h3,
+.gnss-field-record-grid h3 {
+  margin: 0;
+  color: #173f60;
+  font-size: 13px;
+}
+
+.gnss-field-check-grid ul,
+.gnss-field-record-grid ul,
+.gnss-field-known-point-checks ul,
+.gnss-field-return-points ul,
+.gnss-field-decision-lab > ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.gnss-field-status-panel,
+.gnss-field-stability-vs-repeatability,
+.gnss-field-repeatability-vs-consistency,
+.gnss-field-machine-human-record,
+.gnss-field-before-after {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gnss-field-status-panel section,
+.gnss-field-stability-vs-repeatability article,
+.gnss-field-repeatability-vs-consistency article,
+.gnss-field-machine-human-record article,
+.gnss-field-before-after article {
+  min-width: 0;
+  padding: 14px;
+  background: #f8fbfd;
+  border: 1px solid #d8e4eb;
+  border-radius: 9px;
+}
+
+.gnss-field-status-panel section:last-child {
+  background: #fffaf0;
+  border-color: #ead7aa;
+}
+
+.gnss-field-status-panel span,
+.gnss-field-status-panel strong,
+.gnss-field-status-panel p,
+.gnss-field-stability-vs-repeatability span,
+.gnss-field-stability-vs-repeatability strong,
+.gnss-field-repeatability-vs-consistency span,
+.gnss-field-repeatability-vs-consistency strong,
+.gnss-field-machine-human-record span,
+.gnss-field-before-after span,
+.gnss-field-before-after strong {
+  display: block;
+}
+
+.gnss-field-status-panel span,
+.gnss-field-stability-vs-repeatability span,
+.gnss-field-repeatability-vs-consistency span,
+.gnss-field-machine-human-record span,
+.gnss-field-before-after span {
+  color: #21618f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.gnss-field-status-panel strong,
+.gnss-field-stability-vs-repeatability strong,
+.gnss-field-repeatability-vs-consistency strong,
+.gnss-field-before-after strong {
+  margin-top: 6px;
+  color: #173f60;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.gnss-field-status-panel p,
+.gnss-field-stability-vs-repeatability p,
+.gnss-field-machine-human-record p,
+.gnss-field-monitor-grid p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.gnss-field-monitor-grid small {
+  display: block;
+  margin-top: 7px;
+  color: #8a5b14;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.gnss-field-epoch-comparison {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gnss-field-epoch-comparison > article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #b9dfca;
+  border-radius: 10px;
+  background: #f4fbf7;
+}
+
+.gnss-field-epoch-comparison > article:last-child {
+  border-color: #edc6c6;
+  background: #fff7f7;
+}
+
+.gnss-field-epoch-comparison header span,
+.gnss-field-epoch-comparison header strong {
+  display: block;
+}
+
+.gnss-field-epoch-comparison header span {
+  color: #21618f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.gnss-field-epoch-comparison header strong {
+  margin-top: 3px;
+  font-size: 13px;
+}
+
+.gnss-field-epoch-comparison ol {
+  display: grid;
+  gap: 5px;
+  margin: 12px 0 0;
+  padding: 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  list-style: none;
+}
+
+.gnss-field-epoch-comparison li {
+  padding: 7px 3px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #b9dfca;
+  border-radius: 6px;
+}
+
+.gnss-field-epoch-comparison li[data-state="FLOAT"] {
+  border-color: #d79999;
+  background: #ffeded;
+}
+
+.gnss-field-epoch-comparison li span,
+.gnss-field-epoch-comparison li strong {
+  display: block;
+  font-size: 10px;
+}
+
+.gnss-field-epoch-comparison li strong {
+  margin-top: 3px;
+  color: #236643;
+}
+
+.gnss-field-epoch-comparison li[data-state="FLOAT"] strong {
+  color: #9b3434;
+}
+
+.gnss-field-epoch-comparison > article > p {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.gnss-field-regulation-note {
+  color: #5d4519;
+  background: #fffaf0;
+  border: 1px solid #ead7aa;
+}
+
+.gnss-field-regulation-note h3 {
+  margin: 5px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.gnss-field-regulation-note ul,
+.gnss-field-regulation-note p {
+  margin: 7px 0 0;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.gnss-field-regulation-note strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.gnss-field-case-selector {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gnss-field-case-selector.is-six-cases {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gnss-field-case-selector button,
+.gnss-field-primary-action,
+.gnss-field-decision-lab > button {
+  min-height: 42px;
+  padding: 9px 12px;
+  color: #173f60;
+  background: #f8fbfd;
+  border: 1px solid #a9c7d8;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.gnss-field-case-selector button[aria-pressed="true"] {
+  color: #fff;
+  background: #21618f;
+  border-color: #21618f;
+}
+
+.gnss-field-case-selector button span {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+.gnss-field-case-selector button:focus-visible,
+.gnss-field-primary-action:focus-visible,
+.gnss-field-decision-lab > button:focus-visible,
+.gnss-field-decision-lab input:focus-visible + span,
+.gnss-field-external-links a:focus-visible {
+  outline: 3px solid #f39c12;
+  outline-offset: 2px;
+}
+
+.gnss-field-refix-lab,
+.gnss-field-decision-lab {
+  margin-top: 12px;
+  padding: 16px;
+  background: #f8fbfd;
+  border: 1px solid #c5d9e5;
+  border-radius: 10px;
+}
+
+.gnss-field-refix-lab > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gnss-field-refix-lab > header span,
+.gnss-field-refix-lab > header strong {
+  display: block;
+}
+
+.gnss-field-refix-lab > header span {
+  color: #21618f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.gnss-field-refix-lab > header strong {
+  margin-top: 3px;
+  font-size: 13px;
+}
+
+.gnss-field-refix-lab > header > b {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  color: #173f60;
+  background: #e2f1fa;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.gnss-field-coordinate-results {
+  display: grid;
+  gap: 8px;
+  margin-top: 13px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gnss-field-coordinate-results article {
+  min-width: 0;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #d8e4eb;
+  border-radius: 8px;
+}
+
+.gnss-field-coordinate-results article.is-difference {
+  background: #eff9f4;
+  border-color: #b9dfca;
+}
+
+.gnss-field-coordinate-results article > span {
+  color: #21618f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.gnss-field-coordinate-results dl {
+  margin: 8px 0 0;
+}
+
+.gnss-field-coordinate-results dl > div,
+.gnss-field-record-example dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid #e5edf2;
+}
+
+.gnss-field-coordinate-results dt,
+.gnss-field-coordinate-results dd,
+.gnss-field-record-example dt,
+.gnss-field-record-example dd {
+  margin: 0;
+  font-size: 12px;
+}
+
+.gnss-field-coordinate-results dd,
+.gnss-field-record-example dd {
+  font-weight: 800;
+  text-align: right;
+}
+
+.gnss-field-coordinate-results article > strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.gnss-field-primary-action {
+  display: block;
+  margin: 12px auto 0;
+  color: #fff;
+  background: #21618f;
+  border-color: #21618f;
+}
+
+.gnss-field-repeatability-vs-consistency article {
+  text-align: center;
+}
+
+.gnss-field-repeatability-vs-consistency b {
+  display: block;
+  margin-top: 7px;
+  color: #236643;
+  font-size: 15px;
+}
+
+.gnss-field-known-point-example {
+  margin-top: 16px;
+  overflow: hidden;
+  border: 1px solid #c5d9e5;
+  border-radius: 10px;
+}
+
+.gnss-field-known-point-example header,
+.gnss-field-record-example header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.gnss-field-known-point-example header {
+  padding: 12px 14px;
+  background: #eef7ff;
+}
+
+.gnss-field-known-point-example header strong,
+.gnss-field-record-example header strong {
+  font-size: 12px;
+}
+
+.gnss-field-known-point-example > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gnss-field-known-point-example article {
+  min-width: 0;
+  padding: 13px;
+  border-right: 1px solid #d8e4eb;
+}
+
+.gnss-field-known-point-example article:last-child {
+  border-right: 0;
+}
+
+.gnss-field-known-point-example article span {
+  color: #21618f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.gnss-field-known-point-example article p {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+
+.gnss-field-known-point-checks {
+  background: #fffaf0;
+  border: 1px solid #ead7aa;
+}
+
+.gnss-field-known-point-checks h3,
+.gnss-field-return-points h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.gnss-field-known-point-checks > strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.gnss-field-known-point-patterns {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gnss-field-known-point-patterns article {
+  min-width: 0;
+  padding: 12px;
+  background: #f8fbfd;
+  border: 1px solid #d8e4eb;
+  border-radius: 8px;
+}
+
+.gnss-field-known-point-patterns strong,
+.gnss-field-known-point-patterns p {
+  display: block;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.gnss-field-known-point-patterns p {
+  margin-top: 5px;
+}
+
+.gnss-field-decision-axis {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gnss-field-decision-axis article {
+  min-width: 0;
+  padding: 11px;
+  background: #eef7ff;
+  border: 1px solid #bedcee;
+  border-radius: 8px;
+}
+
+.gnss-field-decision-axis span {
+  display: inline-grid;
+  width: 22px;
+  height: 22px;
+  margin-right: 6px;
+  color: #fff;
+  background: #21618f;
+  border-radius: 50%;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.gnss-field-decision-axis strong {
+  color: #173f60;
+  font-size: 13px;
+}
+
+.gnss-field-decision-axis p {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.gnss-field-decision-lab > header span {
+  color: #21618f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.gnss-field-decision-lab > header h3 {
+  margin: 4px 0 0;
+  font-size: 15px;
+}
+
+.gnss-field-decision-lab fieldset {
+  display: grid;
+  gap: 7px;
+  margin: 14px 0 0;
+  padding: 0;
+  border: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gnss-field-decision-lab legend {
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-field-decision-lab label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #c5d9e5;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.gnss-field-decision-lab > button {
+  margin-top: 10px;
+  color: #fff;
+  background: #21618f;
+}
+
+.gnss-field-decision-lab > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.gnss-field-decision-feedback {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #d79999;
+  border-radius: 8px;
+  background: #fff2f2;
+}
+
+.gnss-field-decision-feedback.is-correct {
+  border-color: #91c9aa;
+  background: #eff9f4;
+}
+
+.gnss-field-decision-feedback strong,
+.gnss-field-decision-feedback p {
+  display: block;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.gnss-field-decision-feedback p {
+  margin-top: 5px;
+}
+
+.gnss-field-decision-flow,
+.gnss-field-workflow {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gnss-field-decision-flow {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.gnss-field-decision-flow li {
+  min-width: 0;
+  padding: 11px;
+  background: #f8fbfd;
+  border: 1px solid #d8e4eb;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.gnss-field-decision-flow b {
+  display: block;
+  margin-top: 5px;
+  color: #21618f;
+}
+
+.gnss-field-card-question {
+  margin: 16px 0 0;
+  color: #173f60;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.65;
+}
+
+.gnss-field-record-example {
+  background: #f8fbfd;
+  border: 1px solid #c5d9e5;
+}
+
+.gnss-field-record-example dl {
+  margin: 10px 0 0;
+}
+
+.gnss-field-machine-human-record article:last-child {
+  background: #fffaf0;
+  border-color: #ead7aa;
+}
+
+.gnss-field-chapter-chain {
+  display: flex;
+  align-items: stretch;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.gnss-field-chapter-chain > span {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 11px;
+  text-align: center;
+  background: #f8fbfd;
+  border: 1px solid #d8e4eb;
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.gnss-field-chapter-chain > b {
+  align-self: center;
+  color: #21618f;
+}
+
+.gnss-field-workflow {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gnss-field-workflow li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 9px 11px;
+  background: #f8fbfd;
+  border: 1px solid #d8e4eb;
+  border-radius: 7px;
+}
+
+.gnss-field-workflow li > span {
+  display: inline-grid;
+  flex: 0 0 25px;
+  width: 25px;
+  height: 25px;
+  color: #fff;
+  background: #21618f;
+  border-radius: 50%;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.gnss-field-workflow li > strong {
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.gnss-field-return-points {
+  background: #fffaf0;
+  border: 1px solid #ead7aa;
+}
+
+.gnss-field-next-chapter {
+  color: #173f60;
+  background: #eef7ff;
+  border: 1px solid #bedcee;
+}
+
+.gnss-field-next-chapter > strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.gnss-field-next-chapter > p {
+  margin: 6px 0 0;
+  color: var(--slate-600);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.gnss-field-external-links {
+  background: #f7fafc;
+  border: 1px solid #d8e4eb;
+}
+
+.gnss-field-external-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gnss-field-external-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  color: #173f60;
+  background: #fff;
+  border: 1px solid #bedcee;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.gnss-field-external-links li[data-source="gsi"] a {
+  border-color: #ead7aa;
+  background: #fffaf0;
+}
+
+.gnss-field-external-links a:hover {
+  text-decoration: underline;
+}
+
+.gnss-field-quiz-summary {
+  display: grid;
+  gap: 6px 10px;
+  grid-template-columns: auto minmax(0, 1fr);
+  background: #eff9f4;
+  border: 1px solid #b9dfca;
+}
+
+.gnss-field-quiz-summary strong,
+.gnss-field-quiz-summary span {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.gnss-field-quiz-summary p {
+  margin: 6px 0 0;
+  grid-column: 1 / -1;
+  color: #173f60;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.65;
+}
+
+@media (max-width: 980px) {
+  .gnss-field-quality-flow,
+  .gnss-field-case-selector.is-six-cases,
+  .gnss-field-decision-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gnss-field-quality-flow li:first-child,
+  .gnss-field-quality-flow li:last-child {
+    border-radius: 9px;
+  }
+}
+
+@media (max-width: 760px) {
+  .gnss-field-quality-flow,
+  .gnss-field-check-grid,
+  .gnss-field-monitor-grid,
+  .gnss-field-record-grid,
+  .gnss-field-epoch-comparison,
+  .gnss-field-stability-vs-repeatability,
+  .gnss-field-repeatability-vs-consistency,
+  .gnss-field-known-point-patterns,
+  .gnss-field-decision-axis,
+  .gnss-field-decision-flow,
+  .gnss-field-machine-human-record,
+  .gnss-field-before-after,
+  .gnss-field-workflow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gnss-field-check-grid article:last-child {
+    grid-column: auto;
+  }
+
+  .gnss-field-quality-flow li > b {
+    top: auto;
+    right: 50%;
+    bottom: -11px;
+    transform: translateX(50%) rotate(90deg);
+  }
+
+  .gnss-field-coordinate-results {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gnss-field-known-point-example > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gnss-field-known-point-example article {
+    border-right: 0;
+    border-bottom: 1px solid #d8e4eb;
+  }
+
+  .gnss-field-known-point-example article:last-child {
+    border-bottom: 0;
+  }
+
+  .gnss-field-decision-lab fieldset {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gnss-field-chapter-chain {
+    flex-direction: column;
+  }
+
+  .gnss-field-chapter-chain > b {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 520px) {
+  .gnss-field-opening-question,
+  .gnss-field-regulation-note,
+  .gnss-field-known-point-checks,
+  .gnss-field-return-points,
+  .gnss-field-next-chapter,
+  .gnss-field-external-links,
+  .gnss-field-record-example,
+  .gnss-field-quiz-summary,
+  .gnss-field-refix-lab,
+  .gnss-field-decision-lab {
+    padding: 12px;
+  }
+
+  .gnss-field-case-selector,
+  .gnss-field-case-selector.is-six-cases {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gnss-field-refix-lab > header,
+  .gnss-field-known-point-example header,
+  .gnss-field-record-example header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .gnss-field-primary-action,
+  .gnss-field-decision-lab > button,
+  .gnss-field-external-links ul,
+  .gnss-field-external-links li,
+  .gnss-field-external-links a {
+    width: 100%;
+  }
+
+  .gnss-field-coordinate-results dl > div,
+  .gnss-field-record-example dl > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .gnss-field-coordinate-results dd,
+  .gnss-field-record-example dd {
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
+}
+
 /* GNSS Phase 4: positioning methods lesson */
 .gnss-positioning-opening-question,
 .gnss-positioning-baseline-definition,

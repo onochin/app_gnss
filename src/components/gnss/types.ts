@@ -5,11 +5,12 @@ export type GnssLessonId =
   | "gnss-positioning-methods"
   | "gnss-own-base-station"
   | "gnss-correction-delivery"
-  | "gnss-baseline-fix";
+  | "gnss-baseline-fix"
+  | "gnss-field-observation";
 
 export interface GnssLessonMetadata {
   readonly id: GnssLessonId;
-  readonly number: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  readonly number: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   readonly title: string;
   readonly description: string;
   readonly learningGoal: string;

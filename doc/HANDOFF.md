@@ -1,6 +1,6 @@
 # GNSS学習アプリ HANDOFF
 
-最終更新日：2026-08-18
+最終更新日：2026-08-24
 
 ## 1. アプリ概要
 
@@ -36,12 +36,13 @@
 | 5 | 自前RTK① 基準局をつくる | `gnss-own-base-station` | available |
 | 6 | 自前RTK② 補正情報を届ける | `gnss-correction-delivery` | available |
 | 7 | 自前RTK③ 基線解析とFIX | `gnss-baseline-fix` | available |
+| 8 | 自前RTK④ 現場観測と点検 | `gnss-field-observation` | available |
 
-第8章以降は未実装。第7章末尾の第8章への問いだけを既存どおり維持する。
+第9章以降は未実装。第8章末尾には第9章への問いだけを実装している。
 
 ## 4. 現在の重要仕様
 
-- GNSS第1章～第7章は`SurveyGnss`内で常時マウントする。
+- GNSS第1章～第8章は`SurveyGnss`内で常時マウントする。
 - 章往復時はReact画面状態、問題回答、理解済み状態を保持する。
 - ブラウザ再読込み後は初期化する。
 - GNSS用`localStorage`、学習記録、クラウド同期はない。
@@ -342,3 +343,110 @@ GNSS UI再編 Phase 1 完了
 ```
 
 第8章教材、GNSS学習記録、GNSS用`localStorage`、CSS大規模整理には着手しない。
+
+## 12. GNSS測量教材 第8章（2026-08-24）
+
+### 12.1 実装内容
+
+- 第8章「自前RTK④ 現場観測と点検」を、安定章ID`gnss-field-observation`で利用可能にした。
+- 要件書どおり9カードを実装した。
+  1. FIXした。その座標を採用してよい？
+  2. P1を観測する前に何を確認する？
+  3. 観測中は何を見ている？
+  4. FIXした瞬間を記録すればよい？
+  5. 1回のFIXだけで十分？
+  6. 既知点で確認すると何が分かる？
+  7. この観測は採用する？再測する？
+  8. 現場で何を記録して残す？
+  9. 自前RTKの現場観測を一本につなぐ
+- 章全体を`安定性 → 再現性 → 整合性 → 採用判断`の4段階で構成した。
+- カード5だけに、再現例・非再現例を切り替え、`観測① → 測位状態リセット → 3D / FLOAT → 独立して再FIX → 観測② → 2観測比較`を進める操作を実装した。
+- カード7だけに、6ケースを`採用候補 / 再測 / 原因確認`から判断する操作を実装した。
+- カード1～4、6、8、9は静的な図、チェック表、タイムライン、比較、記録例、フローとし、不要な操作を追加していない。
+- 公共測量の数値は、国土地理院「作業規程の準則」（令和7年3月31日改正）第122条の`RTK法による地形、地物等の測定`における標準例として限定した。
+  - FIX後10エポック以上
+  - データ取得間隔1秒
+  - 初期化を行う観測点での再初期化・2セット目観測
+  - セット間較差 ΔN / ΔE 20 mm、ΔU 30 mm
+- 上記数値をすべてのRTKに共通する普遍的採否基準とはせず、対象業務の作業規程・品質基準に従う注記をカード4・7へ表示した。
+- Drogger固有のGNSS Hot Restart、Status / RTCM3、FixMode / Age、「FIX以外をエラーとする」、Waypoint / セッション等は、一般的なGNSS・RTKの考え方を説明した後の実機例として扱った。
+- 要件書指定のDrogger公式マニュアル・公式ブログへのカード別リンクを配置し、カード4・7には国土地理院の公式PDFも配置した。
+- カード8は4分類と完成した簡潔な記録例だけとし、入力フォームを設けなかった。実習編「RTK観測記録を作ってみる」は候補として注記し、本編へ混在させていない。
+- 確認問題9問を実装し、正答位置を`B / D / A / C / B / D / A / C / B`へ分散した。全27件の誤答選択肢に個別理由を持たせた。
+
+### 12.2 変更ファイル
+
+- `src/components/gnss/data/gnssFieldObservation.ts`（新規）
+- `src/components/gnss/lessons/GnssFieldObservationLesson.tsx`（新規）
+- `src/tests/gnssFieldObservation.test.ts`（新規）
+- `src/components/gnss/types.ts`
+- `src/components/gnss/gnssCourse.ts`
+- `src/components/gnss/gnssNavigation.ts`
+- `src/components/gnss/GnssLessonNavigation.tsx`
+- `src/components/gnss/SurveyGnss.tsx`
+- `src/styles.css`
+- `src/tests/gnssBaselineFix.test.ts`
+- `src/tests/gnssCorrectionDelivery.test.ts`
+- `src/tests/gnssNavigation.test.ts`
+- `src/tests/gnssOwnBaseStation.test.ts`
+- `scripts/gnss-smoke.mjs`
+- `README.md`
+- `doc/HANDOFF.md`
+
+### 12.3 維持事項
+
+- 第1章～第7章の教材本文、図、操作、固定教材値、計算、既存章ID、カードID、問題ID、選択肢ID、章順は変更していない。
+- 第1章～第8章を`SurveyGnss`内で常時マウントし、非選択章を`hidden`にする方式を維持した。
+- 章往復時のReact操作状態・問題回答の保持、ブラウザ再読込み時の初期化を維持した。
+- GNSS用`localStorage`、学習記録、クラウド同期は追加していない。
+- 外部API、実機通信、観測ファイル読込み、新規npmパッケージ、依存更新は追加していない。
+- `.gnss-*` CSS名前空間、色以外の状態表示、キーボード操作、可視フォーカス、非有限値の安全表示を維持した。
+- 第9章のRINEX、後処理解析、元期・今期、セミ・ダイナミック補正の詳細には着手していない。
+
+### 12.4 実装前の公式情報確認
+
+- 国土地理院「作業規程の準則」公式PDFを確認した。
+  - 令和7年3月31日国土交通省告示第240号による一部改正を確認した。
+  - 第122条の適用対象と、10エポック以上、1秒、再初期化、セット間較差の標準を確認した。
+- Drogger現行公式マニュアル・公式ブログを確認した。
+  - 「観測のヒント」で、悪条件時のミスFIX確認、再FIX前のGNSS Hot Restart、測位状態リセット後に3D / Floatへ戻る説明を確認した。
+  - 「セッションを設定する」で、「FIX以外をエラーとする」ON時にFloat等で即エラー・記録中止となる説明を確認した。
+  - Waypoint、セッション、アンテナ高、観測手簿・記簿等の指定URLが現行で到達可能であることを確認した。
+
+### 12.5 最終ローカル検証
+
+- `npm run typecheck -- --pretty false`：成功、型エラー0件。
+- `npm test -- --reporter=verbose`：成功、9テストファイル・118テストすべて成功。
+- `npm run build`：成功、38 modules transformed。
+  - `dist/index.html`：0.58 kB、gzip 0.41 kB。
+  - CSS：376.88 kB、gzip 55.61 kB。
+  - JS：613.45 kB、gzip 163.01 kB。
+- `node --check scripts/gnss-smoke.mjs`：成功。
+- ローカルGNSS Playwright完全スモーク：成功。
+  - 第1章～第8章へ移動可能。
+  - 確認問題59問、既存主要操作、第8章カード5・7の操作を確認した。
+  - 章往復時の状態保持、再読込み時の初期化、localStorageキー不変を確認した。
+  - キーボード操作・可視フォーカスを確認した。
+  - 1366px：`clientWidth=1366 / scrollWidth=1366`。
+  - 390px：`clientWidth=390 / scrollWidth=390`。
+  - コンソールエラー0件、ページ例外0件、外部API通信0件。
+- 目視画像は既存画像を上書きせず、次の新規名で`/tmp`へ保存した。
+  - `/tmp/gnss-chapter8-full-1366-20260824.png`
+  - `/tmp/gnss-chapter8-full-390-20260824.png`
+  - カード4・5・7・8・9の1366px版・390px版も同じ`gnss-chapter8-card*-*-20260824.png`形式で保存した。
+- 目視でカード4・5・7・8・9を確認し、重大な文字重なり、欠け、ページ全体の横はみ出しはなかった。
+
+### 12.6 警告・残る注意点
+
+- JSが500 kBを超える既知のVite警告は継続する。警告だけを理由とするコード分割・大規模最適化は実施していない。
+- `PLAYWRIGHT_BROWSERS_PATH=0`のプロジェクト内配置にはChromiumがなかったため、Phase 2と同じ既存共有ブラウザ配置を環境変数で一時参照した。新規ダウンロード、依存追加、恒久設定変更は行っていない。
+- 第9章以降、実習編本体、GNSS学習記録、GNSS用`localStorage`は未実装。
+
+### 12.7 次回開始地点
+
+```text
+GNSS測量教材 第8章 完了
+第1章～第8章 available
+第9章以降は未実装
+次のPhaseはユーザー指示待ち
+```

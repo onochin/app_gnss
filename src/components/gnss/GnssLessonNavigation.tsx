@@ -118,20 +118,6 @@ function GnssLessonNavigation({
                   id={regionId}
                 >
                   {category.items.map((item) => {
-                    if (item.kind === "upcoming") {
-                      return (
-                        <div
-                          className="gnss-navigation-upcoming-item"
-                          data-gnss-upcoming-lesson="8"
-                          key={item.number}
-                        >
-                          <span>{String(item.number).padStart(2, "0")}</span>
-                          <strong>{item.title}</strong>
-                          <small>{item.status}</small>
-                        </div>
-                      );
-                    }
-
                     const isSelected = item.lesson.id === activeLessonId;
 
                     return (

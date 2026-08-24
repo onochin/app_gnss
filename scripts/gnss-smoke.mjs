@@ -72,8 +72,8 @@ try {
   const baseStationRtkCategoryToggle = lessonNavigation.getByRole("button", {
     name: /基準局RTK/,
   });
-  const upcomingChapterEight = lessonNavigation.locator(
-    '[data-gnss-upcoming-lesson="8"]',
+  const chapterEightNavigationButton = lessonNavigation.locator(
+    '[data-lesson-navigation-id="gnss-field-observation"]',
   );
   const desktopNavigationLayout = await lessonNavigation.evaluate((element) => {
     const rect = element.getBoundingClientRect();
@@ -86,9 +86,8 @@ try {
   assert(
     (await categoryToggles.count()) === 7 &&
       (await lessonNavigation.locator("[data-lesson-navigation-id]").count()) ===
-        7 &&
-      (await upcomingChapterEight.count()) === 1 &&
-      (await upcomingChapterEight.locator("button").count()) === 0 &&
+        8 &&
+      (await chapterEightNavigationButton.count()) === 1 &&
       (await lessonNavigation
         .locator('[data-lesson-navigation-id="gnss-overview"]')
         .getAttribute("aria-current")) === "page" &&
@@ -106,9 +105,8 @@ try {
   assert(
     (await baseStationRtkCategoryToggle.getAttribute("aria-expanded")) ===
       "true" &&
-      (await upcomingChapterEight.isVisible()) &&
-      (await upcomingChapterEight.getByText("準備中", { exact: true }).isVisible()),
-    "基準局RTKカテゴリをキーボードで開けないか、第8章が準備中ではありません。",
+      (await chapterEightNavigationButton.isVisible()),
+    "基準局RTKカテゴリをキーボードで開けないか、第8章が利用可能ではありません。",
   );
   await lessonNavigation
     .getByRole("button", { name: /第2章.*GNSSは何を観測しているのか/ })
@@ -145,13 +143,13 @@ try {
     name: "この章を理解できた",
   });
   assert(
-    await overviewLesson.getByText("0 / 7 章", { exact: true }).isVisible(),
-    "GNSS教材の初期進捗が0 / 7章ではありません。",
+    await overviewLesson.getByText("0 / 8 章", { exact: true }).isVisible(),
+    "GNSS教材の初期進捗が0 / 8章ではありません。",
   );
   await understoodButton.click();
   assert(
-    await overviewLesson.getByText("1 / 7 章", { exact: true }).isVisible(),
-    "GNSS第1章の理解済み進捗が1 / 7章になりません。",
+    await overviewLesson.getByText("1 / 8 章", { exact: true }).isVisible(),
+    "GNSS第1章の理解済み進捗が1 / 8章になりません。",
   );
 
   const representativeCaseCard = page.getByTestId("gnss-purpose-card");
@@ -392,8 +390,8 @@ try {
   });
   await observationsUnderstoodButton.click();
   assert(
-    await observationsLesson.getByText("2 / 7 章", { exact: true }).isVisible(),
-    "GNSS第2章の理解済み操作で進捗が2 / 7章になりません。",
+    await observationsLesson.getByText("2 / 8 章", { exact: true }).isVisible(),
+    "GNSS第2章の理解済み操作で進捗が2 / 8章になりません。",
   );
 
   const travelTimeCard = page.getByTestId("gnss-observations-travel-time-card");
@@ -776,8 +774,8 @@ try {
   );
   await coordinateHeightUnderstoodButton.click();
   assert(
-    await coordinateHeightLesson.getByText("3 / 7 章", { exact: true }).isVisible(),
-    "GNSS第3章の理解済み操作で進捗が3 / 7章になりません。",
+    await coordinateHeightLesson.getByText("3 / 8 章", { exact: true }).isVisible(),
+    "GNSS第3章の理解済み操作で進捗が3 / 8章になりません。",
   );
 
   const earthCenteredCard = page.getByTestId("gnss-earth-centered-card");
@@ -1183,9 +1181,9 @@ try {
   await positioningMethodsUnderstoodButton.click();
   assert(
     await positioningMethodsLesson
-      .getByText("4 / 7 章", { exact: true })
+      .getByText("4 / 8 章", { exact: true })
       .isVisible(),
-    "GNSS第4章の理解済み操作で進捗が4 / 7章になりません。",
+    "GNSS第4章の理解済み操作で進捗が4 / 8章になりません。",
   );
 
   const positioningInformationCard = page.getByTestId(
@@ -1583,8 +1581,8 @@ try {
   );
   await ownBaseStationUnderstoodButton.click();
   assert(
-    await ownBaseStationLesson.getByText("5 / 7 章", { exact: true }).isVisible(),
-    "GNSS第5章の理解済み操作で進捗が5 / 7章になりません。",
+    await ownBaseStationLesson.getByText("5 / 8 章", { exact: true }).isVisible(),
+    "GNSS第5章の理解済み操作で進捗が5 / 8章になりません。",
   );
 
   const ownBaseIntroCard = page.getByTestId("gnss-own-base-intro-card");
@@ -1937,7 +1935,7 @@ try {
         .locator("[data-gnss-correction-card]")
         .count()) === 9 &&
       (await correctionDeliveryLesson
-        .getByText("5 / 7 章", { exact: true })
+        .getByText("5 / 8 章", { exact: true })
         .isVisible()),
     "GNSS第6章、9カード構成または進捗表示を確認できません。",
   );
@@ -2358,7 +2356,7 @@ try {
       (await baselineFixLesson.locator("[data-gnss-baseline-card]").count()) ===
         9 &&
       (await baselineFixLesson
-        .getByText("5 / 7 章", { exact: true })
+        .getByText("5 / 8 章", { exact: true })
         .isVisible()),
     "GNSS第7章、9カード構成、到達目標または進捗表示を確認できません。",
   );
@@ -2764,6 +2762,425 @@ try {
     "GNSS第7章の確認問題が8問ではありません。",
   );
 
+  await chapterEightNavigationButton.click();
+  const fieldObservationLesson = page.locator(
+    '[data-lesson-id="gnss-field-observation"]',
+  );
+  assert(
+    (await fieldObservationLesson.isVisible()) &&
+      (await fieldObservationLesson
+        .getByRole("heading", {
+          name: "FIXした。その座標を採用してよい？",
+          exact: true,
+        })
+        .isVisible()) &&
+      (await fieldObservationLesson.locator("[data-gnss-field-card]").count()) ===
+        9 &&
+      (await fieldObservationLesson
+        .getByText("5 / 8 章", { exact: true })
+        .isVisible()),
+    "GNSS第8章、9カード構成、到達目標または進捗表示を確認できません。",
+  );
+
+  const fieldIntroCard = page.getByTestId("gnss-field-intro-card");
+  const fieldIntroText = await fieldIntroCard.innerText();
+  assert(
+    (await fieldIntroCard.locator("[data-quality-pillar-id]").count()) === 4 &&
+      (await fieldIntroCard.getByRole("link").count()) === 2 &&
+      [
+        "第7章からの接続",
+        "FIXだけで成果採用を決めません",
+        "安定性",
+        "再現性",
+        "整合性",
+        "採用判断",
+      ].every((expectedText) => fieldIntroText.includes(expectedText)),
+    "第8章カード1の第7章接続、品質確認骨格または公式リンクが不足しています。",
+  );
+
+  const fieldPrecheckCard = page.getByTestId("gnss-field-precheck-card");
+  const fieldPrecheckText = await fieldPrecheckCard.innerText();
+  assert(
+    (await fieldPrecheckCard.locator("[data-precheck-id]").count()) === 5 &&
+      (await fieldPrecheckCard.getByRole("link").count()) === 2 &&
+      [
+        "測点",
+        "アンテナ高",
+        "測地系",
+        "平面直角座標系の系番号",
+        "観測環境",
+        "基準局・補正構成",
+      ].every((expectedText) => fieldPrecheckText.includes(expectedText)),
+    "第8章カード2の観測前5分類または公式リンクが不足しています。",
+  );
+
+  const fieldMonitoringCard = page.getByTestId("gnss-field-monitoring-card");
+  const fieldMonitoringText = await fieldMonitoringCard.innerText();
+  assert(
+    (await fieldMonitoringCard.locator("[data-monitor-check-id]").count()) === 4 &&
+      (await fieldMonitoringCard.getByRole("link").count()) === 1 &&
+      [
+        "RTCM更新",
+        "SINGLE / 3D → FLOAT → FIX",
+        "Status / RTCM3",
+        "FixMode / Age",
+        "固定閾値を置かない",
+        "普遍的な採否基準にしない",
+        "独立した再FIX間の再現性とは別",
+      ].every((expectedText) => fieldMonitoringText.includes(expectedText)),
+    "第8章カード3の観測中4分類、一般原理とDrogger実機例の区別が不足しています。",
+  );
+
+  const fieldEpochsCard = page.getByTestId("gnss-field-epochs-card");
+  const fieldEpochsText = await fieldEpochsCard.innerText();
+  assert(
+    (await fieldEpochsCard.locator('[data-epoch-example="normal"] li').count()) ===
+      10 &&
+      (await fieldEpochsCard
+        .locator('[data-epoch-example="interrupted"] li')
+        .count()) === 5 &&
+      (await fieldEpochsCard.locator('[data-state="FLOAT"]').count()) === 1 &&
+      (await fieldEpochsCard.getByRole("link").count()) === 3 &&
+      [
+        "FIX以外をエラーとする",
+        "観測エラー / 記録中止",
+        "単に10秒待つことではなく",
+        "令和7年3月31日改正",
+        "第122条",
+        "FIX解を得てから10エポック以上",
+        "データ取得間隔 1秒",
+        "すべてのRTKに共通する普遍的な採否基準ではなく",
+        "単純な算術平均とは断定しません",
+      ].every((expectedText) => fieldEpochsText.includes(expectedText)),
+    "第8章カード4の複数エポック、途中FLOAT、公共測量の適用範囲または内部処理注意が不足しています。",
+  );
+
+  const fieldRefixCard = page.getByTestId("gnss-field-refix-card");
+  const fieldRefixResult = fieldRefixCard.getByTestId("gnss-field-refix-result");
+  const fieldAdvanceReobservation = fieldRefixCard.getByTestId(
+    "gnss-field-advance-reobservation",
+  );
+  const notRepeatableCaseButton = fieldRefixCard.getByTestId(
+    "gnss-field-repeat-case-not-repeatable",
+  );
+  assert(
+    (await fieldRefixResult.getAttribute("data-reobservation-stage-id")) ===
+      "first-observation" &&
+      (await fieldRefixResult.getAttribute("data-repeat-case-id")) ===
+        "repeatable" &&
+      (await fieldRefixCard
+        .getByText("FIX / 10 epoch", { exact: true })
+        .isVisible()),
+    "第8章カード5の初期観測状態が正しくありません。",
+  );
+  await notRepeatableCaseButton.focus();
+  await page.keyboard.press("Tab");
+  const fieldRefixVisibleFocus = await hasVisibleKeyboardFocus(
+    fieldAdvanceReobservation,
+  );
+  await page.keyboard.press("Enter");
+  const fieldRefixKeyboardOperation =
+    (await fieldRefixResult.getAttribute("data-reobservation-stage-id")) ===
+      "reset" &&
+    (await fieldRefixResult.getByText("3D / FLOAT", { exact: true }).isVisible());
+  await fieldAdvanceReobservation.click();
+  assert(
+    (await fieldRefixResult.getAttribute("data-reobservation-stage-id")) ===
+      "refix" &&
+      (await fieldRefixResult
+        .getByText("再FIX / 10 epoch", { exact: true })
+        .isVisible()),
+    "第8章カード5が測位状態リセット後に独立した再FIXへ進みません。",
+  );
+  await fieldAdvanceReobservation.click();
+  const repeatableComparisonText = await fieldRefixResult.innerText();
+  const repeatableExpectedTexts = [
+    "観測②（独立して再FIX）",
+    "1012.352",
+    "1007.815",
+    "52.196",
+    "+7 mm",
+    "-6 mm",
+    "+12 mm",
+    "独立した再FIX後も近い位置",
+  ];
+  const fieldRefixChecks = {
+    visibleFocus: fieldRefixVisibleFocus,
+    keyboardOperation: fieldRefixKeyboardOperation,
+    stageId: await fieldRefixResult.getAttribute("data-reobservation-stage-id"),
+    missingTexts: repeatableExpectedTexts.filter(
+      (expectedText) => !repeatableComparisonText.includes(expectedText),
+    ),
+  };
+  assert(
+    fieldRefixChecks.visibleFocus &&
+      fieldRefixChecks.keyboardOperation &&
+      fieldRefixChecks.stageId === "comparison" &&
+      fieldRefixChecks.missingTexts.length === 0,
+    `第8章カード5の再現ケース比較、キーボード操作または固定値が正しくありません: ${JSON.stringify(fieldRefixChecks)}`,
+  );
+  await notRepeatableCaseButton.click();
+  for (let stageIndex = 0; stageIndex < 3; stageIndex += 1) {
+    await fieldAdvanceReobservation.click();
+  }
+  const notRepeatableComparisonText = await fieldRefixCard.innerText();
+  assert(
+    (await fieldRefixResult.getAttribute("data-repeat-case-id")) ===
+      "not-repeatable" &&
+      (await fieldRefixResult.getAttribute("data-reobservation-stage-id")) ===
+        "comparison" &&
+      [
+        "1012.397",
+        "1007.789",
+        "52.241",
+        "+52 mm",
+        "-32 mm",
+        "+57 mm",
+        "両方FIXでも独立した観測間の差が大きい",
+        "絶対的な採否基準を決めません",
+      ].every((expectedText) => notRepeatableComparisonText.includes(expectedText)),
+    "第8章カード5の非再現ケース比較または採否判断の分離が正しくありません。",
+  );
+
+  const fieldKnownPointCard = page.getByTestId("gnss-field-known-point-card");
+  const fieldKnownPointText = await fieldKnownPointCard.innerText();
+  assert(
+    (await fieldKnownPointCard.getByRole("link").count()) === 2 &&
+      [
+        "再現性",
+        "整合性",
+        "仮想既知点 K1",
+        "1025.000",
+        "994.992",
+        "+12 mm",
+        "-8 mm",
+        "+18 mm",
+        "現在使う成果がどの成果体系・時点に対応するか",
+        "K1だけ合わない",
+        "K1・K2・K3が似た方向・量でずれる",
+        "詳細は第9章",
+      ].every((expectedText) => fieldKnownPointText.includes(expectedText)),
+    "第8章カード6の既知点仮想値、再現性・整合性の区別または第9章境界が不足しています。",
+  );
+
+  const fieldDecisionCard = page.getByTestId("gnss-field-decision-card");
+  const fieldDecisionResult = fieldDecisionCard.getByTestId(
+    "gnss-field-decision-result",
+  );
+  const fieldDecisionCaseIds = [
+    "repeatable",
+    "float-during-epochs",
+    "repeated-float",
+    "fixed-not-repeatable",
+    "known-point-mismatch",
+    "sudden-fix-poor-environment",
+  ];
+  const fieldDecisionCorrectOptionIndexes = [0, 1, 2, 2, 2, 1];
+  const initialDecisionRadios = fieldDecisionResult.locator(
+    'input[type="radio"]',
+  );
+  await fieldDecisionCard
+    .getByTestId("gnss-field-decision-case-sudden-fix-poor-environment")
+    .focus();
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("ArrowRight");
+  const fieldDecisionVisibleFocus = await hasVisibleKeyboardFocus(
+    initialDecisionRadios.nth(1),
+  );
+  const fieldDecisionKeyboardOperation =
+    await initialDecisionRadios.nth(1).isChecked();
+  await fieldDecisionResult
+    .getByRole("button", { name: "判断を確認する", exact: true })
+    .click();
+  assert(
+    fieldDecisionVisibleFocus &&
+      fieldDecisionKeyboardOperation &&
+      (await fieldDecisionResult
+        .getByText("もう一度確認", { exact: true })
+        .isVisible()) &&
+      (await fieldDecisionResult
+        .getByText("基本判断：採用候補", { exact: true })
+        .isVisible()),
+    "第8章カード7のキーボード操作または誤判断フィードバックが正しくありません。",
+  );
+  for (const [caseIndex, caseId] of fieldDecisionCaseIds.entries()) {
+    const correctOptionIndex = fieldDecisionCorrectOptionIndexes[caseIndex];
+    assert(correctOptionIndex !== undefined, `${caseId}の正答位置がありません。`);
+    await fieldDecisionCard.getByTestId(`gnss-field-decision-case-${caseId}`).click();
+    await fieldDecisionResult
+      .locator('input[type="radio"]')
+      .nth(correctOptionIndex)
+      .check();
+    await fieldDecisionResult
+      .getByRole("button", { name: "判断を確認する", exact: true })
+      .click();
+    assert(
+      (await fieldDecisionResult.getAttribute("data-decision-case-id")) ===
+        caseId &&
+        (await fieldDecisionResult
+          .getByText("適切な判断", { exact: true })
+          .isVisible()),
+      `${caseId}の採用候補・再測・原因確認の判断が正しくありません。`,
+    );
+  }
+  const fieldDecisionText = await fieldDecisionCard.innerText();
+  assert(
+    (await fieldDecisionCard.getByRole("link").count()) === 4 &&
+      [
+        "安定性",
+        "再現性",
+        "整合性",
+        "ΔN / ΔE 20 mm",
+        "ΔU 30 mm",
+        "現行準則の該当手法における例",
+        "対象業務の作業規程・品質基準",
+        "採用候補",
+        "再測",
+        "原因確認",
+      ].every((expectedText) => fieldDecisionText.includes(expectedText)),
+    "第8章カード7の判断軸、公共測量値の限定または公式リンクが不足しています。",
+  );
+
+  const fieldRecordCard = page.getByTestId("gnss-field-record-card");
+  const fieldRecordText = await fieldRecordCard.innerText();
+  assert(
+    (await fieldRecordCard.locator("[data-record-group-id]").count()) === 4 &&
+      (await fieldRecordCard.locator("input, textarea, select").count()) === 0 &&
+      (await fieldRecordCard.getByRole("link").count()) === 4 &&
+      [
+        "どこを・いつ",
+        "どんな条件で",
+        "どんな観測だった",
+        "なぜ採用した",
+        "P1 RTK観測記録",
+        "再初期化",
+        "ΔX +7 mm / ΔY -6 mm / ΔH +12 mm",
+        "再FIX後も位置が再現",
+        "人が意味を残す",
+        "実習編候補",
+        "入力フォームを設けていません",
+      ].every((expectedText) => fieldRecordText.includes(expectedText)),
+    "第8章カード8の4分類、静的完成記録例、実習編境界または公式リンクが不足しています。",
+  );
+
+  const fieldSummaryCard = page.getByTestId("gnss-field-summary-card");
+  const fieldSummaryText = await fieldSummaryCard.innerText();
+  assert(
+    (await fieldSummaryCard.locator("[data-field-workflow-step-id]").count()) ===
+      14 &&
+      (await fieldSummaryCard.getByRole("link").count()) === 1 &&
+      [
+        "正しい基準局",
+        "正しい補正情報",
+        "正しいFIX",
+        "正しい点検",
+        "測位状態をリセット / 再初期化",
+        "観測①と②を比較：再現性",
+        "必要に応じて既知点確認：整合性",
+        "異常時は原因に応じた工程へ戻る",
+        "FIXはゴールではありません",
+        "第9章への問い",
+        "RINEX、後処理解析、元期・今期、セミ・ダイナミック補正の詳細は第9章",
+      ].every((expectedText) => fieldSummaryText.includes(expectedText)),
+    "第8章カード9の第5～8章接続、14工程、品質骨格または第9章境界が不足しています。",
+  );
+
+  const fieldStaticCards = fieldObservationLesson.locator(
+    '[data-gnss-field-card="1"], [data-gnss-field-card="2"], [data-gnss-field-card="3"], [data-gnss-field-card="4"], [data-gnss-field-card="6"], [data-gnss-field-card="8"], [data-gnss-field-card="9"]',
+  );
+  assert(
+    (await fieldStaticCards.getByRole("button").count()) === 0,
+    "第8章のカード5・7以外へ不要な操作ボタンが追加されています。",
+  );
+  const fieldExternalLinks = fieldObservationLesson.locator(
+    ".gnss-field-external-links a",
+  );
+  const fieldExternalLinkHrefs = await fieldExternalLinks.evaluateAll((links) =>
+    links.map((link) => link.getAttribute("href")),
+  );
+  assert(
+    (await fieldExternalLinks.count()) === 21 &&
+      fieldExternalLinkHrefs.every(
+        (href) => typeof href === "string" && href.startsWith("https://"),
+      ),
+    "第8章のカード別公式リンク数またはhrefが正しくありません。",
+  );
+
+  const fieldQuestionIds = [
+    "fix-and-acceptance",
+    "pre-observation-check",
+    "during-observation-check",
+    "multiple-epochs-meaning",
+    "independent-refix",
+    "known-point-purpose",
+    "known-point-mismatch-decision",
+    "field-record-content",
+    "field-workflow-order",
+  ];
+  const fieldCorrectOptionIndexes = [1, 3, 0, 2, 1, 3, 0, 2, 1];
+  const fieldCorrectOptionLetters = ["B", "D", "A", "C", "B", "D", "A", "C", "B"];
+  const fieldQuestionOne = page.getByTestId(
+    `gnss-quiz-question-${fieldQuestionIds[0]}`,
+  );
+  const fieldQuestionOneOptions = fieldQuestionOne.locator('input[type="radio"]');
+  await fieldSummaryCard.getByRole("link").focus();
+  await page.keyboard.press("Tab");
+  const fieldQuizVisibleFocus = await hasVisibleKeyboardFocus(
+    fieldQuestionOneOptions.nth(0),
+  );
+  await page.keyboard.press("Space");
+  const fieldQuizKeyboardOperation = await fieldQuestionOneOptions.nth(0).isChecked();
+  await fieldQuestionOne
+    .getByRole("button", { name: "回答を確認する", exact: true })
+    .click();
+  assert(
+    fieldQuizVisibleFocus &&
+      fieldQuizKeyboardOperation &&
+      (await fieldQuestionOne
+        .getByText("不正解", { exact: true })
+        .isVisible()) &&
+      (await fieldQuestionOne
+        .getByText("正解：B", { exact: true })
+        .isVisible()) &&
+      (await fieldQuestionOne
+        .getByRole("heading", { name: "Aを選んだ場合の解説", exact: true })
+        .isVisible()),
+    "第8章問1のキーボード操作、誤答理由または正解文字が正しくありません。",
+  );
+  for (const [questionIndex, questionId] of fieldQuestionIds.entries()) {
+    const question = page.getByTestId(`gnss-quiz-question-${questionId}`);
+    const correctOptionIndex = fieldCorrectOptionIndexes[questionIndex];
+    const correctOptionLetter = fieldCorrectOptionLetters[questionIndex];
+    assert(
+      correctOptionIndex !== undefined && correctOptionLetter !== undefined,
+      `${questionId}の正答位置データがありません。`,
+    );
+    await question.locator('input[type="radio"]').nth(correctOptionIndex).check();
+    await question
+      .getByRole("button", { name: "回答を確認する", exact: true })
+      .click();
+    const feedback = question.locator(".gnss-quiz-feedback");
+    assert(
+      (await feedback.getByText("正解", { exact: true }).isVisible()) &&
+        (await feedback
+          .getByText(`正解：${correctOptionLetter}`, { exact: true })
+          .isVisible()) &&
+        (await feedback.locator(".gnss-quiz-selected-explanation").count()) ===
+          0 &&
+        (await feedback
+          .getByRole("heading", { name: "解説", exact: true })
+          .isVisible()),
+      `${questionId}の正答表示または解説が正しくありません。`,
+    );
+  }
+  assert(
+    (await fieldObservationLesson
+      .getByTestId("gnss-field-observation-quiz-panel")
+      .locator(".gnss-quiz-question")
+      .count()) === 9,
+    "GNSS第8章の確認問題が9問ではありません。",
+  );
+
   await lessonNavigation
     .getByRole("button", { name: /第1章.*GNSS測量の全体像/ })
     .click();
@@ -2775,7 +3192,7 @@ try {
         .getAttribute("aria-pressed")) === "true" &&
       (await p1Result.isVisible()) &&
       (await questionThree.getByText("正解", { exact: true }).isVisible()) &&
-      (await overviewLesson.getByText("5 / 7 章", { exact: true }).isVisible()),
+      (await overviewLesson.getByText("5 / 8 章", { exact: true }).isVisible()),
     "第4章から戻ったときにGNSS第1章の状態が保持されません。",
   );
   await chapterTwoNavigationButton.click();
@@ -2881,6 +3298,30 @@ try {
     "GNSS章往復後に第7章の候補評価・問題状態が保持されません。",
   );
 
+  await chapterEightNavigationButton.click();
+  assert(
+    (await fieldObservationLesson.isVisible()) &&
+      (await fieldRefixResult.getAttribute("data-repeat-case-id")) ===
+        "not-repeatable" &&
+      (await fieldRefixResult.getAttribute("data-reobservation-stage-id")) ===
+        "comparison" &&
+      (await fieldDecisionResult.getAttribute("data-decision-case-id")) ===
+        "sudden-fix-poor-environment" &&
+      (await fieldDecisionResult
+        .getByText("適切な判断", { exact: true })
+        .isVisible()) &&
+      (await fieldObservationLesson
+        .getByTestId("gnss-field-observation-quiz-panel")
+        .locator(".gnss-quiz-feedback")
+        .count()) === 9 &&
+      (await page
+        .getByTestId(`gnss-quiz-question-${fieldQuestionIds[8]}`)
+        .getByText("正解", { exact: true })
+        .isVisible()),
+    "GNSS章往復後に第8章の再FIX比較・判断・問題状態が保持されません。",
+  );
+  await chapterSevenNavigationButton.click();
+
   const desktopMetrics = await getPageMetrics(page);
   assert(
     (await baselineFixLesson.isVisible()) &&
@@ -2889,28 +3330,29 @@ try {
   );
 
   if (saveScreenshots) {
+    await chapterEightNavigationButton.click();
     const screenshotStyle = await page.addStyleTag({
       content: ".app-header, .skip-link { visibility: hidden !important; }",
     });
     try {
       await page.screenshot({
         fullPage: true,
-        path: "/tmp/gnss-ui-reorg-phase1-full-1366-20260818.png",
+        path: "/tmp/gnss-chapter8-full-1366-20260824.png",
       });
-      await baselineDoubleDifferenceCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card3-1366-20260818.png",
+      await fieldEpochsCard.screenshot({
+        path: "/tmp/gnss-chapter8-card4-1366-20260824.png",
       });
-      await baselineCandidateCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card5-1366-20260818.png",
+      await fieldRefixCard.screenshot({
+        path: "/tmp/gnss-chapter8-card5-1366-20260824.png",
       });
-      await baselineVectorCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card6-1366-20260818.png",
+      await fieldDecisionCard.screenshot({
+        path: "/tmp/gnss-chapter8-card7-1366-20260824.png",
       });
-      await baselineResultCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card8-1366-20260818.png",
+      await fieldRecordCard.screenshot({
+        path: "/tmp/gnss-chapter8-card8-1366-20260824.png",
       });
-      await baselineSummaryCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card9-1366-20260818.png",
+      await fieldSummaryCard.screenshot({
+        path: "/tmp/gnss-chapter8-card9-1366-20260824.png",
       });
     } finally {
       await screenshotStyle.evaluate((style) => style.remove());
@@ -2957,7 +3399,7 @@ try {
         .getByTestId(`gnss-quiz-question-${observationQuestionIds[6]}`)
         .getByText("正解", { exact: true })
         .isVisible()) &&
-      (await observationsLesson.getByText("5 / 7 章", { exact: true }).isVisible()),
+      (await observationsLesson.getByText("5 / 8 章", { exact: true }).isVisible()),
     "章往復後にGNSS第2章の操作・問題・理解状態が保持されません。",
   );
   await chapterThreeNavigationButton.click();
@@ -3016,6 +3458,18 @@ try {
         .isVisible()),
     "既存章回帰後にGNSS第7章の状態が保持されません。",
   );
+  await chapterEightNavigationButton.click();
+  assert(
+    (await fieldObservationLesson.isVisible()) &&
+      (await fieldRefixResult.getAttribute("data-reobservation-stage-id")) ===
+        "comparison" &&
+      (await fieldObservationLesson
+        .getByTestId("gnss-field-observation-quiz-panel")
+        .locator(".gnss-quiz-feedback")
+        .count()) === 9,
+    "既存章回帰後にGNSS第8章の操作・問題状態が保持されません。",
+  );
+  await chapterSevenNavigationButton.click();
 
   const storageKeysAfterGnssOperations = await page.evaluate(() =>
     Object.keys(window.localStorage).sort(),
@@ -3056,8 +3510,8 @@ try {
     (await mobileNavigationDisclosure.getAttribute("open")) !== null &&
       (await lessonNavigation.getByText("基礎編", { exact: true }).isVisible()) &&
       (await lessonNavigation.getByText("基準局RTK", { exact: true }).isVisible()) &&
-      (await upcomingChapterEight.isVisible()),
-    "390px幅の章選択を開いてカテゴリまたは準備中の第8章を確認できません。",
+      (await chapterEightNavigationButton.isVisible()),
+    "390px幅の章選択を開いてカテゴリまたは利用可能な第8章を確認できません。",
   );
 
   assert(
@@ -3215,6 +3669,30 @@ try {
       visible: await control.isVisible(),
     })),
   );
+  await chapterEightNavigationButton.click();
+  const mobileFieldCardsVisible = await Promise.all(
+    [
+      fieldIntroCard,
+      fieldEpochsCard,
+      fieldRefixCard,
+      fieldDecisionCard,
+      fieldRecordCard,
+      fieldSummaryCard,
+    ].map((card) => card.isVisible()),
+  );
+  const mobileFieldControls = await Promise.all(
+    [
+      fieldAdvanceReobservation,
+      notRepeatableCaseButton,
+      fieldDecisionCard.getByTestId(
+        "gnss-field-decision-case-sudden-fix-poor-environment",
+      ),
+      fieldQuestionOneOptions.nth(fieldCorrectOptionIndexes[0]),
+    ].map(async (control) => ({
+      enabled: await control.isEnabled(),
+      visible: await control.isVisible(),
+    })),
+  );
   const mobileMetrics = await getPageMetrics(page);
   const mobileOverflowElements = await page.evaluate(() =>
     Array.from(document.querySelectorAll(".gnss-page, .gnss-page *"))
@@ -3264,14 +3742,16 @@ try {
       mobileCorrectionControls.every(
         (control) => control.visible && control.enabled,
       ) &&
-      (await baselineFixLesson.isVisible()) &&
+      (await fieldObservationLesson.isVisible()) &&
       mobileBaselineCardsVisible.every(Boolean) &&
       mobileBaselineTableContainment.withinViewport &&
       mobileBaselineTableContainment.clientWidth <=
         mobileBaselineTableContainment.scrollWidth &&
       mobileBaselineControls.every((control) => control.visible && control.enabled) &&
+      mobileFieldCardsVisible.every(Boolean) &&
+      mobileFieldControls.every((control) => control.visible && control.enabled) &&
       mobileMetrics.scrollWidth <= mobileMetrics.clientWidth,
-    `GNSS第4章〜第6章回帰または第7章の390px表示が正しくありません: ${JSON.stringify({ mobileCoordinatePanelLayout, mobileOwnBaseStationVisible, mobileOwnBaseTableContainment, mobileCorrectionDeliveryVisible, mobileCorrectionTableContainment, mobileCorrectionControls, mobileBaselineCardsVisible, mobileBaselineTableContainment, mobileBaselineControls, mobileMetrics, mobileOverflowElements })}`,
+    `GNSS第4章〜第6章回帰または第7章・第8章の390px表示が正しくありません: ${JSON.stringify({ mobileCoordinatePanelLayout, mobileOwnBaseStationVisible, mobileOwnBaseTableContainment, mobileCorrectionDeliveryVisible, mobileCorrectionTableContainment, mobileCorrectionControls, mobileBaselineCardsVisible, mobileBaselineTableContainment, mobileBaselineControls, mobileFieldCardsVisible, mobileFieldControls, mobileMetrics, mobileOverflowElements })}`,
   );
 
   if (saveScreenshots) {
@@ -3281,22 +3761,22 @@ try {
     try {
       await page.screenshot({
         fullPage: true,
-        path: "/tmp/gnss-ui-reorg-phase1-full-390-20260818.png",
+        path: "/tmp/gnss-chapter8-full-390-20260824.png",
       });
-      await baselineDoubleDifferenceCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card3-390-20260818.png",
+      await fieldEpochsCard.screenshot({
+        path: "/tmp/gnss-chapter8-card4-390-20260824.png",
       });
-      await baselineCandidateCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card5-390-20260818.png",
+      await fieldRefixCard.screenshot({
+        path: "/tmp/gnss-chapter8-card5-390-20260824.png",
       });
-      await baselineVectorCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card6-390-20260818.png",
+      await fieldDecisionCard.screenshot({
+        path: "/tmp/gnss-chapter8-card7-390-20260824.png",
       });
-      await baselineResultCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card8-390-20260818.png",
+      await fieldRecordCard.screenshot({
+        path: "/tmp/gnss-chapter8-card8-390-20260824.png",
       });
-      await baselineSummaryCard.screenshot({
-        path: "/tmp/gnss-ui-reorg-phase1-card9-390-20260818.png",
+      await fieldSummaryCard.screenshot({
+        path: "/tmp/gnss-chapter8-card9-390-20260824.png",
       });
     } finally {
       await screenshotStyle.evaluate((style) => style.remove());
@@ -3330,9 +3810,9 @@ try {
   assert(
       (await reloadedOverviewLesson.isVisible()) &&
       (await reloadedOverviewLesson
-        .getByText("0 / 7 章", { exact: true })
+        .getByText("0 / 8 章", { exact: true })
         .isVisible()),
-    "再読込み後にGNSS第1章と0 / 7章の初期進捗へ戻りません。",
+    "再読込み後にGNSS第1章と0 / 8章の初期進捗へ戻りません。",
   );
   await page.locator(".gnss-navigation-disclosure > summary").click();
   await page
@@ -3530,7 +4010,7 @@ try {
         .locator("[data-gnss-correction-card]")
         .count()) === 9 &&
       (await reloadedCorrectionDeliveryLesson
-        .getByText("0 / 7 章", { exact: true })
+        .getByText("0 / 8 章", { exact: true })
         .isVisible()) &&
       (await reloadedCorrectionFreshnessCard
         .getByTestId("gnss-correction-freshness-fresh")
@@ -3570,7 +4050,7 @@ try {
         .locator("[data-gnss-baseline-card]")
         .count()) === 9 &&
       (await reloadedBaselineFixLesson
-        .getByText("0 / 7 章", { exact: true })
+        .getByText("0 / 8 章", { exact: true })
         .isVisible()) &&
       (await reloadedBaselineCandidateCard
         .getByTestId("gnss-baseline-candidate-result")
@@ -3589,6 +4069,44 @@ try {
         .getByRole("button", { name: "この章を理解できた" })
         .count()) === 0,
     "再読込み後にGNSS第7章のReact状態が初期化されません。",
+  );
+
+  await page
+    .locator(".gnss-lesson-navigation")
+    .locator('[data-lesson-navigation-id="gnss-field-observation"]')
+    .click();
+  const reloadedFieldObservationLesson = page.locator(
+    '[data-lesson-id="gnss-field-observation"]',
+  );
+  const reloadedFieldRefixResult = reloadedFieldObservationLesson.getByTestId(
+    "gnss-field-refix-result",
+  );
+  const reloadedFieldDecisionResult = reloadedFieldObservationLesson.getByTestId(
+    "gnss-field-decision-result",
+  );
+  assert(
+    (await reloadedFieldObservationLesson.isVisible()) &&
+      (await reloadedFieldObservationLesson
+        .locator("[data-gnss-field-card]")
+        .count()) === 9 &&
+      (await reloadedFieldObservationLesson
+        .getByText("0 / 8 章", { exact: true })
+        .isVisible()) &&
+      (await reloadedFieldRefixResult.getAttribute("data-repeat-case-id")) ===
+        "repeatable" &&
+      (await reloadedFieldRefixResult.getAttribute(
+        "data-reobservation-stage-id",
+      )) === "first-observation" &&
+      (await reloadedFieldDecisionResult.getAttribute("data-decision-case-id")) ===
+        "repeatable" &&
+      (await reloadedFieldDecisionResult
+        .locator(".gnss-field-decision-feedback")
+        .count()) === 0 &&
+      (await reloadedFieldObservationLesson
+        .getByTestId("gnss-field-observation-quiz-panel")
+        .locator(".gnss-quiz-feedback")
+        .count()) === 0,
+    "再読込み後にGNSS第8章の再FIX・判断・問題状態が初期化されません。",
   );
 
   const storageKeysAfterReload = await page.evaluate(() =>
@@ -3627,6 +4145,7 @@ try {
           "gnss-own-base-station",
           "gnss-correction-delivery",
           "gnss-baseline-fix",
+          "gnss-field-observation",
         ],
         representativeCase: "一般の調査・測量",
         workflowSteps: 9,
@@ -3650,6 +4169,10 @@ try {
         baselineFixCards: 9,
         baselineAmbiguityEvaluationStages: 3,
         baselineFixQuizQuestionsAnswered: 8,
+        fieldObservationCards: 9,
+        fieldReobservationStages: 4,
+        fieldDecisionCases: 6,
+        fieldObservationQuizQuestionsAnswered: 9,
         statePreservedAcrossLessons: true,
         stateResetAfterReload: true,
         keyboardOperation: true,
@@ -3674,6 +4197,14 @@ try {
           baselineCandidateKeyboardOperation && baselineQuizKeyboardOperation,
         baselineFixVisibleFocus:
           baselineCandidateVisibleFocus && baselineQuizVisibleFocus,
+        fieldObservationKeyboardOperation:
+          fieldRefixKeyboardOperation &&
+          fieldDecisionKeyboardOperation &&
+          fieldQuizKeyboardOperation,
+        fieldObservationVisibleFocus:
+          fieldRefixVisibleFocus &&
+          fieldDecisionVisibleFocus &&
+          fieldQuizVisibleFocus,
         localStorageKeysUnchanged: true,
         desktopMetrics,
         mobileMetrics,
