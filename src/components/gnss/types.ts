@@ -6,11 +6,12 @@ export type GnssLessonId =
   | "gnss-own-base-station"
   | "gnss-correction-delivery"
   | "gnss-baseline-fix"
-  | "gnss-field-observation";
+  | "gnss-field-observation"
+  | "gnss-postprocessing";
 
 export interface GnssLessonMetadata {
   readonly id: GnssLessonId;
-  readonly number: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  readonly number: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   readonly title: string;
   readonly description: string;
   readonly learningGoal: string;

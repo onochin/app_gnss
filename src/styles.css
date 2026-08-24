@@ -30,6 +30,719 @@
     0 8px 24px rgba(20, 48, 81, 0.07);
 }
 
+/* GNSS 第9章：観測データと後処理解析 */
+.gnss-postprocessing-lesson .gnss-card > p {
+  color: #294c66;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.gnss-post-opening-question,
+.gnss-post-save-check,
+.gnss-post-rinex-contents,
+.gnss-post-reference-dates,
+.gnss-post-strain-note,
+.gnss-post-parameter-note,
+.gnss-post-major-warning,
+.gnss-post-next-chapter,
+.gnss-post-external-links {
+  border: 1px solid #cbdce8;
+  border-radius: 14px;
+  background: #f6fafc;
+  padding: 16px;
+}
+
+.gnss-post-opening-question {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 16px;
+  border-left: 5px solid #2876ae;
+}
+
+.gnss-post-opening-question span,
+.gnss-post-next-chapter span,
+.gnss-post-external-links > span {
+  color: #356b91;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-post-opening-question strong,
+.gnss-post-opening-question p {
+  margin: 0;
+  color: #173f60;
+}
+
+.gnss-post-opening-question strong {
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.gnss-post-saved-grid,
+.gnss-post-three-roles,
+.gnss-post-baseline-example,
+.gnss-post-core-message-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.gnss-post-saved-grid article,
+.gnss-post-three-roles article,
+.gnss-post-baseline-example article,
+.gnss-post-core-message-grid article {
+  min-width: 0;
+  border: 1px solid #d2e0ea;
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+}
+
+.gnss-post-saved-grid article > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e7f2fa;
+  color: #185f91;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-post-saved-grid h3,
+.gnss-post-save-check h3,
+.gnss-post-rinex-contents h3,
+.gnss-post-parameter-note h3 {
+  margin: 9px 0 6px;
+  color: #173f60;
+  font-size: 14px;
+}
+
+.gnss-post-saved-grid p,
+.gnss-post-saved-grid ul,
+.gnss-post-save-check ol,
+.gnss-post-rinex-contents ul,
+.gnss-post-parameter-note p,
+.gnss-post-major-warning p,
+.gnss-post-next-chapter p {
+  margin: 0;
+  color: #35566d;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.gnss-post-saved-grid ul,
+.gnss-post-save-check ol,
+.gnss-post-rinex-contents ul {
+  margin-top: 8px;
+  padding-left: 20px;
+}
+
+.gnss-post-save-check {
+  margin-top: 16px;
+  border-color: #a9d2b9;
+  background: #f1faf5;
+}
+
+.gnss-post-save-check h3 {
+  margin-top: 0;
+  color: #22613d;
+}
+
+.gnss-post-save-check > strong {
+  display: block;
+  margin-top: 10px;
+  color: #1d5937;
+  font-size: 13px;
+}
+
+.gnss-post-caution {
+  margin: 14px 0 0;
+  border-left: 4px solid #e69b3a;
+  background: #fff8ed;
+  padding: 11px 13px;
+  color: #6f4a18 !important;
+  font-size: 12px !important;
+}
+
+.gnss-post-observation-flow,
+.gnss-post-static-flow,
+.gnss-post-result-workflow {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gnss-post-observation-flow {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.gnss-post-observation-flow li {
+  position: relative;
+  min-width: 0;
+  border: 1px solid #bcd5e6;
+  border-radius: 12px;
+  background: #f7fbfe;
+  padding: 13px;
+  text-align: center;
+}
+
+.gnss-post-observation-flow li > span {
+  color: #174f77;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.gnss-post-observation-flow li > p {
+  margin: 5px 0 0;
+  color: #3c617a;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.gnss-post-observation-flow li > b {
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  z-index: 1;
+  transform: translateY(-50%) rotate(-90deg);
+  color: #2876ae;
+}
+
+.gnss-post-table-wrap {
+  max-width: 100%;
+  margin: 14px 0;
+  overflow-x: auto;
+  border: 1px solid #d3e0e9;
+  border-radius: 12px;
+}
+
+.gnss-post-table-wrap table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 12px;
+}
+
+.gnss-post-table-wrap th,
+.gnss-post-table-wrap td {
+  border-right: 1px solid #dce6ed;
+  border-bottom: 1px solid #dce6ed;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.gnss-post-table-wrap thead th {
+  background: #e9f3f9;
+  color: #174f77;
+}
+
+.gnss-post-table-wrap tbody th {
+  background: #f7fafc;
+  color: #294f69;
+  white-space: nowrap;
+}
+
+.gnss-post-three-roles {
+  margin-bottom: 16px;
+}
+
+.gnss-post-three-roles article {
+  display: grid;
+  gap: 7px;
+  text-align: center;
+}
+
+.gnss-post-three-roles strong {
+  color: #17577f;
+  font-size: 15px;
+}
+
+.gnss-post-three-roles span {
+  color: #3e6077;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.gnss-post-static-flow {
+  margin: 16px 0;
+}
+
+.gnss-post-static-flow li,
+.gnss-post-result-workflow li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  border: 1px solid #cbdce8;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px 13px;
+}
+
+.gnss-post-static-flow li > span {
+  color: #2876ae;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-post-static-flow li > strong,
+.gnss-post-result-workflow li > strong {
+  min-width: 0;
+  color: #244d68;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.gnss-post-static-flow li > b,
+.gnss-post-result-workflow li > b {
+  position: absolute;
+  bottom: -13px;
+  left: 27px;
+  z-index: 1;
+  color: #2876ae;
+}
+
+.gnss-post-rinex-contents {
+  margin-top: 14px;
+}
+
+.gnss-post-rinex-contents ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 18px;
+}
+
+.gnss-post-method-flow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.gnss-post-method-flow > article {
+  min-width: 0;
+  border: 1px solid #bcd5e6;
+  border-radius: 14px;
+  background: #f7fbfe;
+  padding: 14px;
+}
+
+.gnss-post-method-flow h3 {
+  margin: 0;
+  color: #17577f;
+  font-size: 14px;
+}
+
+.gnss-post-baseline-example {
+  margin: 16px 0;
+}
+
+.gnss-post-baseline-example article {
+  display: grid;
+  gap: 5px;
+}
+
+.gnss-post-baseline-example article:nth-child(2) {
+  border-color: #96c3df;
+  background: #edf7fd;
+}
+
+.gnss-post-baseline-example span {
+  color: #356b91;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-post-baseline-example strong {
+  color: #173f60;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+
+.gnss-post-epoch-definitions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.gnss-post-epoch-definitions article {
+  display: grid;
+  gap: 5px;
+  border: 1px solid #cbdce8;
+  border-radius: 12px;
+  background: #f7fbfe;
+  padding: 15px;
+}
+
+.gnss-post-epoch-definitions strong {
+  color: #17577f;
+  font-size: 16px;
+}
+
+.gnss-post-epoch-definitions span,
+.gnss-post-epoch-definitions small {
+  color: #35566d;
+  font-size: 12px;
+}
+
+.gnss-post-epoch-example {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin: 16px 0;
+  border: 1px solid #d3e0e9;
+  border-radius: 14px;
+  background: #fff;
+  padding: 16px;
+}
+
+.gnss-post-epoch-example h3,
+.gnss-post-epoch-example > small {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.gnss-post-epoch-example h3 {
+  color: #173f60;
+  font-size: 14px;
+}
+
+.gnss-post-epoch-example article {
+  display: grid;
+  gap: 5px;
+  border-radius: 10px;
+  background: #edf6fb;
+  padding: 13px;
+}
+
+.gnss-post-epoch-example article span,
+.gnss-post-epoch-example > b {
+  color: #27698f;
+  font-size: 12px;
+  text-align: center;
+}
+
+.gnss-post-epoch-example article strong {
+  color: #173f60;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+
+.gnss-post-epoch-example > small {
+  color: #6f4a18;
+  font-size: 12px;
+}
+
+.gnss-post-not-equal,
+.gnss-post-same-datum {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.gnss-post-not-equal strong,
+.gnss-post-same-datum span {
+  border: 1px solid #bcd5e6;
+  border-radius: 12px;
+  background: #f7fbfe;
+  padding: 13px;
+  color: #17577f;
+  font-size: 13px;
+  text-align: center;
+}
+
+.gnss-post-not-equal b,
+.gnss-post-same-datum b {
+  color: #bd631e;
+  font-size: 13px;
+  text-align: center;
+}
+
+.gnss-post-reference-dates {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+
+.gnss-post-reference-dates > span,
+.gnss-post-reference-dates > small {
+  color: #587185;
+  font-size: 12px;
+}
+
+.gnss-post-reference-dates > strong,
+.gnss-post-reference-dates > p {
+  margin: 0;
+  color: #244d68;
+  font-size: 13px;
+}
+
+.gnss-post-strain-note {
+  margin: 14px 0;
+  text-align: center;
+}
+
+.gnss-post-strain-note strong {
+  color: #ad551a;
+  font-size: 17px;
+}
+
+.gnss-post-strain-note p {
+  margin: 6px 0 0;
+  color: #4d6677;
+  font-size: 12px;
+}
+
+.gnss-post-parameter-note {
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.gnss-post-parameter-note h3 {
+  margin: 0;
+}
+
+.gnss-post-parameter-note small {
+  color: #566f80;
+  font-size: 12px;
+}
+
+.gnss-post-parameter-note strong {
+  color: #6f4a18;
+  font-size: 12px;
+}
+
+.gnss-post-current-reference-example {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.gnss-post-current-reference-example article,
+.gnss-post-current-reference-example > div {
+  display: grid;
+  gap: 5px;
+  border: 1px solid #bcd5e6;
+  border-radius: 12px;
+  background: #f7fbfe;
+  padding: 14px;
+}
+
+.gnss-post-current-reference-example > div {
+  border-color: #efc486;
+  background: #fff8ed;
+}
+
+.gnss-post-current-reference-example span {
+  color: #356b91;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-post-current-reference-example strong {
+  color: #173f60;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.gnss-post-current-reference-example > small {
+  grid-column: 1 / -1;
+  color: #6f4a18;
+  font-size: 12px;
+}
+
+.gnss-post-major-warning {
+  border-color: #edb5aa;
+  background: #fff5f3;
+}
+
+.gnss-post-major-warning > strong {
+  color: #9b382d;
+  font-size: 14px;
+}
+
+.gnss-post-major-warning p {
+  margin-top: 7px;
+  color: #6f403a;
+}
+
+.gnss-post-result-workflow {
+  margin-bottom: 16px;
+}
+
+.gnss-post-result-workflow li {
+  grid-template-columns: 120px minmax(0, 1fr);
+}
+
+.gnss-post-result-workflow li > span {
+  border-radius: 999px;
+  background: #e7f2fa;
+  padding: 5px 8px;
+  color: #185f91;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.gnss-post-core-message-grid {
+  margin: 16px 0;
+}
+
+.gnss-post-core-message-grid article {
+  border-top: 4px solid #2876ae;
+}
+
+.gnss-post-core-message-grid strong {
+  color: #17577f;
+  font-size: 14px;
+}
+
+.gnss-post-core-message-grid p {
+  margin: 7px 0 0;
+  color: #3c617a;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.gnss-post-next-chapter {
+  display: grid;
+  gap: 6px;
+  border-left: 5px solid #2876ae;
+}
+
+.gnss-post-next-chapter strong {
+  color: #173f60;
+  font-size: 14px;
+}
+
+.gnss-post-external-links {
+  margin-top: 16px;
+}
+
+.gnss-post-external-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 9px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gnss-post-external-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #aac9dc;
+  border-radius: 999px;
+  background: #fff;
+  padding: 7px 10px;
+  color: #17577f;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.gnss-post-external-links li[data-source="gsi"] a {
+  border-color: #a9d2b9;
+  color: #22613d;
+}
+
+.gnss-post-external-links a:hover {
+  text-decoration: underline;
+}
+
+.gnss-post-external-links a:focus-visible {
+  outline: 3px solid #f0a23a;
+  outline-offset: 3px;
+}
+
+.gnss-post-quiz-summary {
+  margin-top: 18px;
+}
+
+@media (max-width: 980px) {
+  .gnss-post-observation-flow,
+  .gnss-post-saved-grid,
+  .gnss-post-baseline-example,
+  .gnss-post-core-message-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gnss-post-observation-flow li > b {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .gnss-post-saved-grid,
+  .gnss-post-three-roles,
+  .gnss-post-method-flow,
+  .gnss-post-baseline-example,
+  .gnss-post-core-message-grid,
+  .gnss-post-observation-flow,
+  .gnss-post-epoch-definitions,
+  .gnss-post-epoch-example,
+  .gnss-post-not-equal,
+  .gnss-post-same-datum,
+  .gnss-post-current-reference-example {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gnss-post-rinex-contents ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gnss-post-epoch-example h3,
+  .gnss-post-epoch-example > small,
+  .gnss-post-current-reference-example > small {
+    grid-column: 1;
+  }
+
+  .gnss-post-result-workflow li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .gnss-post-opening-question,
+  .gnss-post-save-check,
+  .gnss-post-rinex-contents,
+  .gnss-post-reference-dates,
+  .gnss-post-strain-note,
+  .gnss-post-parameter-note,
+  .gnss-post-major-warning,
+  .gnss-post-next-chapter,
+  .gnss-post-external-links {
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .gnss-post-rinex-contents ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gnss-post-external-links ul,
+  .gnss-post-external-links li,
+  .gnss-post-external-links a {
+    width: 100%;
+  }
+}
+
 /* GNSS Phase 3: coordinate and height lesson */
 .gnss-coordinate-intro-message {
   position: relative;

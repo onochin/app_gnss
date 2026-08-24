@@ -247,6 +247,39 @@ export const gnssFieldObservationLesson = {
   ],
 } as const satisfies GnssLessonMetadata;
 
+export const gnssPostprocessingLesson = {
+  id: "gnss-postprocessing",
+  number: 9,
+  title: "観測データと後処理解析",
+  description:
+    "現場で残したGNSS観測データを、RINEX、リアルタイムとの違い、基線解析、座標の時点、セミ・ダイナミック補正を通して測量成果へつなぐ。",
+  learningGoal:
+    "観測データと座標、リアルタイムと後処理、測地系と座標の時点を区別し、スタティック法の基線解析と、対象となる測量で元期から今期へそろえて計算し最後に元期成果へ戻す代表的な流れを説明できる。",
+  terms: [
+    "GNSS観測データ",
+    "座標データ",
+    "RAW",
+    "RINEX",
+    "リアルタイム測位",
+    "後処理",
+    "スタティック",
+    "基線解析",
+    "基線ベクトル",
+    "元期",
+    "今期",
+    "JGD2024",
+    "セミ・ダイナミック補正",
+    "地殻変動補正パラメータ",
+  ],
+  cautions: [
+    "座標結果の保存と、再解析に利用できるGNSS観測データの保存は別です。",
+    "RINEXは観測データそのものではなく、観測データ等を記録・交換する標準形式です。",
+    "スタティック後処理は表示座標を長時間平均するだけではありません。",
+    "JGD2024などの測地系と、元期・今期という座標の時点を区別します。",
+    "セミ・ダイナミック補正はすべてのGNSS利用で必須ではなく、対象業務の作業規程・成果用途等を確認します。",
+  ],
+} as const satisfies GnssLessonMetadata;
+
 export const gnssLessons = [
   gnssOverviewLesson,
   gnssObservationsLesson,
@@ -256,4 +289,5 @@ export const gnssLessons = [
   gnssCorrectionDeliveryLesson,
   gnssBaselineFixLesson,
   gnssFieldObservationLesson,
+  gnssPostprocessingLesson,
 ] as const;

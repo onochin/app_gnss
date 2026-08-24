@@ -33,7 +33,7 @@ import {
 } from "../components/gnss/data/gnssFieldObservation";
 
 describe("GNSS測量 Phase 8 第8章", () => {
-  it("第1章～第7章を維持し、第8章だけを利用可能な章へ追加する", () => {
+  it("第1章～第7章と第8章メタデータを維持する", () => {
     expect(gnssLessons.slice(0, 7).at(-1)).toBe(gnssBaselineFixLesson);
     expect(gnssFieldObservationLesson).toMatchObject({
       id: "gnss-field-observation",
@@ -50,9 +50,10 @@ describe("GNSS測量 Phase 8 第8章", () => {
       "gnss-correction-delivery",
       "gnss-baseline-fix",
       "gnss-field-observation",
+      "gnss-postprocessing",
     ]);
-    expect(gnssLessons).toHaveLength(8);
-    expect(gnssLessons.every((lesson) => lesson.number <= 8)).toBe(true);
+    expect(gnssLessons).toHaveLength(9);
+    expect(gnssLessons.slice(0, 8).every((lesson) => lesson.number <= 8)).toBe(true);
   });
 
   it("9カードを安定ID・指定タイトル・指定順で定義する", () => {

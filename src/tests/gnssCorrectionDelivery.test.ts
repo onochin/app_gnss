@@ -83,7 +83,7 @@ describe("GNSS測量 Phase 6 第6章", () => {
       "gnss-own-base-station",
       "gnss-correction-delivery",
     ]);
-    expect(gnssLessons).toHaveLength(8);
+    expect(gnssLessons).toHaveLength(9);
     expect(gnssQuizQuestions).toHaveLength(3);
     expect(gnssObservationsQuizQuestions).toHaveLength(7);
     expect(gnssCoordinateHeightQuizQuestions).toHaveLength(8);

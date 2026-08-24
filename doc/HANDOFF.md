@@ -37,12 +37,13 @@
 | 6 | 自前RTK② 補正情報を届ける | `gnss-correction-delivery` | available |
 | 7 | 自前RTK③ 基線解析とFIX | `gnss-baseline-fix` | available |
 | 8 | 自前RTK④ 現場観測と点検 | `gnss-field-observation` | available |
+| 9 | 観測データと後処理解析 | `gnss-postprocessing` | available |
 
-第9章以降は未実装。第8章末尾には第9章への問いだけを実装している。
+第10章以降は未実装。第9章末尾には第10章への問いだけを実装している。
 
 ## 4. 現在の重要仕様
 
-- GNSS第1章～第8章は`SurveyGnss`内で常時マウントする。
+- GNSS第1章～第9章は`SurveyGnss`内で常時マウントする。
 - 章往復時はReact画面状態、問題回答、理解済み状態を保持する。
 - ブラウザ再読込み後は初期化する。
 - GNSS用`localStorage`、学習記録、クラウド同期はない。
@@ -479,3 +480,121 @@ GNSS測量教材 第8章 完了
   - 1366px・390pxともページ全体の横はみ出しなし。
   - コンソールエラー0件、ページ例外0件、外部API通信0件。
 - JSが500 kBを超える既知のVite警告は継続する。
+
+## 14. GNSS測量教材 第9章（2026-08-24）
+
+### 14.1 実装内容
+
+- 第9章「観測データと後処理解析」を、安定章ID`gnss-postprocessing`で利用可能にした。
+- 要件書どおり9カードを実装した。
+  1. 観測が終わった。何が残っている？
+  2. 座標データとGNSS観測データは違う
+  3. RINEXとは何？
+  4. リアルタイム測位と後処理は何が違う？
+  5. 後処理では何をしている？
+  6. その座標は、いつの座標？
+  7. なぜ元期 → 今期へ補正する？
+  8. なぜ最後に今期 → 元期へ戻す？
+  9. 観測データから成果まで一本につなぐ
+- 章全体を次の3メッセージで構成した。
+  - 座標と観測データは別物
+  - 後処理は基準局と移動局の同時観測から基線ベクトルを求める
+  - セミ・ダイナミック補正は元期・今期の時点をそろえて計算し、成果を元期へ戻す
+- 保存対象チェックリスト、座標値と観測値の比較、RINEXの役割、リアルタイム測位と後処理の比較、基線解析フロー、元期・今期、JGD2024との区別、セミ・ダイナミック補正の往復フローを静的教材として実装した。確認問題以外の不要な操作は追加していない。
+- 要件書指定の固定教材値を実装した。
+  - 基準局A：`X=1000.000 / Y=1000.000 / H=50.000 m`
+  - 基線ベクトル：`ΔX=+12.345 / ΔY=+8.765 / ΔH=-0.168 m`
+  - 移動局P1：`X=1012.345 / Y=1008.765 / H=49.832 m`
+  - 元期から今期への変位：`ΔX=+0.035 / ΔY=-0.018 m`
+  - 今期成果`1012.380 / 1008.747 m`から元期成果`1012.345 / 1008.765 m`へ戻る例
+- 国土地理院の現行情報に合わせ、測地成果2024の基準日、年次更新される地殻変動補正パラメータ、約5 kmメッシュ、公共測量での適用範囲を注記した。数値例は教材用の単純化した平面例であり、実務成果の代替ではないことを明示した。
+- 国土地理院とDroggerの公式ページだけを「公式資料」としてカード別に配置した。
+- 確認問題8問を実装し、正答位置を`C / A / D / B / C / D / A / B`へ分散した。A～Dを各2回とし、全24件の誤答選択肢に個別理由を持たせた。未知の問題ID・選択肢IDは安全に`null`を返す。
+- 章ヘッダーに到達目標、重要用語、注意事項を表示し、進捗バーへARIA値を設定した。
+
+### 14.2 変更ファイル
+
+- `src/components/gnss/data/gnssPostprocessing.ts`（新規）
+- `src/components/gnss/lessons/GnssPostprocessingLesson.tsx`（新規）
+- `src/tests/gnssPostprocessing.test.ts`（新規）
+- `src/components/gnss/types.ts`
+- `src/components/gnss/gnssCourse.ts`
+- `src/components/gnss/gnssNavigation.ts`
+- `src/components/gnss/SurveyGnss.tsx`
+- `src/styles.css`
+- `src/tests/gnssBaselineFix.test.ts`
+- `src/tests/gnssCorrectionDelivery.test.ts`
+- `src/tests/gnssFieldObservation.test.ts`
+- `src/tests/gnssNavigation.test.ts`
+- `src/tests/gnssOwnBaseStation.test.ts`
+- `scripts/gnss-smoke.mjs`
+- `README.md`
+- `doc/HANDOFF.md`
+
+### 14.3 維持事項
+
+- 第1章～第8章の教材本文、図、操作、固定教材値、計算、既存章ID、カードID、問題ID、選択肢ID、章順は変更していない。
+- 第1章～第9章を`SurveyGnss`内で常時マウントし、非選択章を`hidden`にする方式を維持した。
+- 章往復時のReact操作状態・問題回答の保持、ブラウザ再読込み時の初期化を維持した。
+- GNSS用`localStorage`、学習記録、クラウド同期は追加していない。
+- 外部API、実機通信、観測ファイル読込み、新規npmパッケージ、依存更新は追加していない。
+- `.gnss-*` CSS名前空間、色以外の状態表示、キーボード操作、可視フォーカス、非有限値の安全表示を維持した。
+- `package.json`、`package-lock.json`、`vite.config.ts`、`.github/workflows/deploy.yml`は変更していない。
+- 第10章以降、実習編本体、公開、remote追加、pushには着手していない。
+
+### 14.4 実装前の公式情報確認
+
+- 国土地理院「[セミ・ダイナミック補正](https://www.gsi.go.jp/sokuchikijun/semidyna.html)」を確認した。
+  - 最終更新日が2026年4月1日であり、`SemiDyna2026`の適用期間が2026年4月1日～2027年3月31日であることを確認した。
+  - 測地成果2024の水平位置の基準日が地域により2011年5月24日または1997年1月1日、標高の基準日が2024年6月1日であることを確認した。
+  - 公共測量での適用範囲、約5 kmメッシュ、`元期 → 今期 → 観測・計算 → 元期`の標準的な流れを確認した。
+- 国土地理院「[電子基準点データ提供サービス](https://www.gsi.go.jp/denshi/denshi_data.html)」で、30秒間隔のGNSS観測データがRINEX形式で提供されることを確認した。
+- Drogger現行公式マニュアルを確認した。
+  - RAW / RINEXのインポート、RINEX作成、2点間ベクトルを求める基線解析、相対測位結果の元期・今期変換に関する指定URLが現行で到達可能であることを確認した。
+
+### 14.5 最終ローカル検証
+
+- `npm run typecheck -- --pretty false`：成功、型エラー0件。
+- `npm test -- --reporter=verbose`：成功、10テストファイル・133テストすべて成功。
+- `npm run build`：成功、40 modules transformed。
+  - `dist/index.html`：0.58 kB、gzip 0.40 kB。
+  - CSS：387.76 kB、gzip 57.27 kB。
+  - JS：658.72 kB、gzip 173.76 kB。
+- `npm run build -- --mode github-pages`：成功、40 modules transformed。
+  - `dist/index.html`：0.59 kB、gzip 0.41 kB。
+  - CSS：387.76 kB、gzip 57.27 kB。
+  - JS：658.72 kB、gzip 173.76 kB。
+  - HTMLのJS/CSS参照が`/app_gnss/assets/`配下であることを確認した。
+- `node --check scripts/gnss-smoke.mjs`：成功。
+- `git diff --check`：成功。
+- ローカルGNSS Playwright完全スモーク：成功。
+  - 第1章～第9章へ移動可能。
+  - 確認問題67問、第9章9カード・8問、既存主要操作を確認した。
+  - 第9章の正答・誤答理由・フォーカス移動、章往復時の状態保持、再読込み時の初期化、localStorageキー不変を確認した。
+  - 第1章～第9章のキーボード操作・可視フォーカスを確認した。
+  - 1366px：`clientWidth=1366 / scrollWidth=1366`。
+  - 390px：`clientWidth=390 / scrollWidth=390`。
+  - コンソールエラー0件、ページ例外0件、外部API通信0件。
+- 目視画像は既存画像を上書きせず、次の新規名で`/tmp`へ保存した。
+  - `/tmp/gnss-chapter9-full-1366-20260824.png`
+  - `/tmp/gnss-chapter9-full-390-20260824.png`
+  - カード3・5・6・7・8・9の1366px版・390px版も同じ`gnss-chapter9-card*-*-20260824.png`形式で保存した。
+  - 第8章回帰画像も`gnss-chapter9-regression-chapter8-*-20260824.png`形式で保存した。
+- 目視で章全体と主要カードを確認し、重大な文字重なり、欠け、ページ全体の横はみ出しはなかった。
+
+### 14.6 警告・残る注意点
+
+- JSが500 kBを超える既知のVite警告は継続する。警告だけを理由とするコード分割・大規模最適化は実施していない。
+- `PLAYWRIGHT_BROWSERS_PATH=0`のプロジェクト内配置にはChromiumがなかったため、既存共有ブラウザ配置を環境変数で一時参照した。新規ダウンロード、依存追加、恒久設定変更は行っていない。
+- 本GNSS専用プロジェクトには基礎教材・閉合トラバース本体および各専用スモークが存在しないため、GNSSと無関係な回帰スモークは対象外とした。
+- 依頼書が参照する詳細ソースHTMLは本プロジェクト内に存在しなかったため、依頼書・設計メモ・現行の公式一次情報を正本として実装した。
+- 第10章以降、実習編本体、GNSS学習記録、GNSS用`localStorage`は未実装。
+
+### 14.7 次回開始地点
+
+```text
+GNSS測量教材 第9章 実装・ローカル検証完了
+第1章～第9章 available
+次はGNSS第9章のユーザー実機確認
+第10章以降には着手しない
+```

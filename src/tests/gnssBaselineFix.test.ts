@@ -95,8 +95,9 @@ describe("GNSS測量 Phase 7 第7章", () => {
       "gnss-correction-delivery",
       "gnss-baseline-fix",
       "gnss-field-observation",
+      "gnss-postprocessing",
     ]);
-    expect(gnssLessons).toHaveLength(8);
+    expect(gnssLessons).toHaveLength(9);
     expect(gnssLessons.slice(0, 7).every((lesson) => lesson.number <= 7)).toBe(true);
     expect(gnssQuizQuestions).toHaveLength(3);
     expect(gnssObservationsQuizQuestions).toHaveLength(7);

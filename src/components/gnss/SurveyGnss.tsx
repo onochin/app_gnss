@@ -8,6 +8,7 @@ import GnssFieldObservationLesson from "./lessons/GnssFieldObservationLesson";
 import GnssOwnBaseStationLesson from "./lessons/GnssOwnBaseStationLesson";
 import GnssOverviewLesson from "./lessons/GnssOverviewLesson";
 import GnssObservationsLesson from "./lessons/GnssObservationsLesson";
+import GnssPostprocessingLesson from "./lessons/GnssPostprocessingLesson";
 import GnssPositioningMethodsLesson from "./lessons/GnssPositioningMethodsLesson";
 import type { GnssLessonId } from "./types";
 
@@ -135,6 +136,16 @@ function SurveyGnss({
           hidden={activeLessonId !== "gnss-field-observation"}
         >
           <GnssFieldObservationLesson
+            completedLessonCount={completedLessonCount}
+            totalLessonCount={totalLessonCount}
+          />
+        </div>
+
+        <div
+          className="gnss-lesson-panel"
+          hidden={activeLessonId !== "gnss-postprocessing"}
+        >
+          <GnssPostprocessingLesson
             completedLessonCount={completedLessonCount}
             totalLessonCount={totalLessonCount}
           />

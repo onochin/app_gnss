@@ -6,6 +6,7 @@ import {
   gnssObservationsLesson,
   gnssOverviewLesson,
   gnssOwnBaseStationLesson,
+  gnssPostprocessingLesson,
   gnssPositioningMethodsLesson,
 } from "./gnssCourse";
 import type { GnssLessonMetadata } from "./types";
@@ -84,6 +85,16 @@ export const gnssLessonCategories: readonly GnssLessonCategory[] = [
   { id: "network-rtk", title: "ネットワークRTK", items: [], status: "準備中" },
   { id: "clas", title: "CLAS測量", items: [], status: "準備中" },
   { id: "static", title: "スタティック測量", items: [], status: "準備中" },
-  { id: "post-processing", title: "後処理", items: [], status: "準備中" },
+  {
+    id: "post-processing",
+    title: "後処理",
+    items: [
+      {
+        kind: "lesson",
+        lesson: gnssPostprocessingLesson,
+        shortTitle: "観測データと後処理解析",
+      },
+    ],
+  },
   { id: "advanced", title: "応用編", items: [], status: "準備中" },
 ];

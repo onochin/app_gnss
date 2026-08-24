@@ -17,12 +17,12 @@ describe("GNSS UI再編 Phase 1 章ナビゲーション", () => {
     category.items.filter((item) => item.kind === "lesson"),
   );
 
-  it("第1章～第8章の安定章IDと順序を維持する", () => {
+  it("第1章～第9章の安定章IDと順序を維持する", () => {
     expect(lessonItems.map((item) => item.lesson.id)).toEqual(
       gnssLessons.map((lesson) => lesson.id),
     );
     expect(lessonItems.map((item) => item.lesson.number)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8,
+      1, 2, 3, 4, 5, 6, 7, 8, 9,
     ]);
   });
 
@@ -51,6 +51,21 @@ describe("GNSS UI再編 Phase 1 章ナビゲーション", () => {
     });
   });
 
+  it("第9章を後処理の利用可能Lessonとして配置する", () => {
+    expect(getCategory("post-processing").items).toEqual([
+      expect.objectContaining({
+        kind: "lesson",
+        lesson: expect.objectContaining({
+          id: "gnss-postprocessing",
+          number: 9,
+          title: "観測データと後処理解析",
+        }),
+        shortTitle: "観測データと後処理解析",
+      }),
+    ]);
+    expect(getCategory("post-processing").status).toBeUndefined();
+  });
+
   it("未実装カテゴリは架空Lessonを生成しない", () => {
     expect(gnssLessonCategories.map((category) => category.title)).toEqual([
       "基礎編",
@@ -62,9 +77,10 @@ describe("GNSS UI再編 Phase 1 章ナビゲーション", () => {
       "応用編",
     ]);
     expect(
-      gnssLessonCategories.slice(2).every(
-        (category) => category.status === "準備中" && category.items.length === 0,
-      ),
+      ["network-rtk", "clas", "static", "advanced"].every((categoryId) => {
+        const category = getCategory(categoryId);
+        return category.status === "準備中" && category.items.length === 0;
+      }),
     ).toBe(true);
   });
 });
