@@ -280,6 +280,33 @@ export const gnssPostprocessingLesson = {
   ],
 } as const satisfies GnssLessonMetadata;
 
+export const gnssNetworkRtkClasLesson = {
+  id: "gnss-network-rtk-clas",
+  number: 10,
+  title: "ネットワーク型RTKとCLAS",
+  description:
+    "現場に自前基準局を置かないネットワーク型RTKとCLASについて、外部情報の作り方・届け方・受信機での利用方法を比較する。",
+  learningGoal:
+    "自前RTK、ネットワーク型RTK、VRS、CLASの違いを説明し、通信・受信条件、基準側情報、座標の時点、高さ基準を確認して方式と成果を比較できる。",
+  terms: [
+    "ネットワーク型RTK",
+    "VRS",
+    "仮想基準点",
+    "NMEA GGA",
+    "概略位置",
+    "L6D",
+    "CLAS",
+    "PPP-RTK",
+    "元期・今期",
+  ],
+  cautions: [
+    "ネットワーク型RTKは、遠くの電子基準点1局をそのまま借りるだけの仕組みではありません。",
+    "VRS仮想点には物理的な受信機が置かれているわけではありません。",
+    "CLASはネットワーク型RTKのインターネットなし版ではありません。",
+    "同じFIX表示でも、測位方式や成果条件が同じとは限りません。",
+  ],
+} as const satisfies GnssLessonMetadata;
+
 export const gnssLessons = [
   gnssOverviewLesson,
   gnssObservationsLesson,
@@ -290,4 +317,5 @@ export const gnssLessons = [
   gnssBaselineFixLesson,
   gnssFieldObservationLesson,
   gnssPostprocessingLesson,
+  gnssNetworkRtkClasLesson,
 ] as const;

@@ -5,6 +5,7 @@ import {
   gnssFieldObservationLesson,
   gnssObservationsLesson,
   gnssOverviewLesson,
+  gnssNetworkRtkClasLesson,
   gnssOwnBaseStationLesson,
   gnssPostprocessingLesson,
   gnssPositioningMethodsLesson,
@@ -82,7 +83,17 @@ export const gnssLessonCategories: readonly GnssLessonCategory[] = [
       },
     ],
   },
-  { id: "network-rtk", title: "ネットワークRTK", items: [], status: "準備中" },
+  {
+    id: "network-rtk",
+    title: "ネットワークRTK",
+    items: [
+      {
+        kind: "lesson",
+        lesson: gnssNetworkRtkClasLesson,
+        shortTitle: "ネットワーク型RTKとCLAS",
+      },
+    ],
+  },
   { id: "clas", title: "CLAS測量", items: [], status: "準備中" },
   { id: "static", title: "スタティック測量", items: [], status: "準備中" },
   {

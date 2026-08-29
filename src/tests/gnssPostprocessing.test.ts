@@ -28,7 +28,7 @@ import {
 } from "../components/gnss/data/gnssPostprocessing";
 
 describe("GNSS測量 第9章 観測データと後処理解析", () => {
-  it("第1章～第8章を維持し、第9章だけを利用可能な章へ追加する", () => {
+  it("第1章～第8章と第9章メタデータを維持する", () => {
     expect(gnssLessons.slice(0, 8).at(-1)).toBe(gnssFieldObservationLesson);
     expect(gnssPostprocessingLesson).toMatchObject({
       id: "gnss-postprocessing",
@@ -47,9 +47,10 @@ describe("GNSS測量 第9章 観測データと後処理解析", () => {
       "gnss-baseline-fix",
       "gnss-field-observation",
       "gnss-postprocessing",
+      "gnss-network-rtk-clas",
     ]);
-    expect(gnssLessons).toHaveLength(9);
-    expect(gnssLessons.every((lesson) => lesson.number <= 9)).toBe(true);
+    expect(gnssLessons).toHaveLength(10);
+    expect(gnssLessons.every((lesson) => lesson.number <= 10)).toBe(true);
   });
 
   it("9カードを指定タイトルと順序で定義する", () => {

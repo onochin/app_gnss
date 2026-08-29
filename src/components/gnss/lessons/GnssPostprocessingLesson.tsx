@@ -159,35 +159,46 @@ function GnssPostprocessingLesson({
 
   return (
     <div
-      aria-labelledby="gnss-postprocessing-course-title"
       className="gnss-lesson gnss-postprocessing-lesson"
       data-lesson-id="gnss-postprocessing"
-      id="gnss-postprocessing"
     >
-      <section className="gnss-lesson-header">
-        <div>
-          <span className="gnss-lesson-number">第9章</span>
-          <h1 id="gnss-postprocessing-course-title">GNSS測量</h1>
-          <p className="gnss-lesson-title">{gnssPostprocessingLesson.title}</p>
-          <p>{gnssPostprocessingLesson.description}</p>
-        </div>
-        <div className="gnss-progress-card">
-          <span>学習進捗</span>
-          <strong>{completedLessonCount} / {totalLessonCount} 章</strong>
-          <div
-            aria-label={`GNSS教材の学習進捗 ${progressPercent}%`}
-            aria-valuemax={100}
-            aria-valuemin={0}
-            aria-valuenow={progressPercent}
-            role="progressbar"
-          >
-            <span style={{ width: `${progressPercent}%` }} />
+      <section
+        aria-labelledby="gnss-postprocessing-course-title"
+        className="gnss-card gnss-chapter-card"
+        data-gnss-postprocessing-card="1"
+        data-testid="gnss-postprocessing-remains-card"
+        id="gnss-postprocessing"
+        tabIndex={-1}
+      >
+        <div className="gnss-card-index">カード 1 / 9 · 静的分類</div>
+        <div className="gnss-chapter-layout">
+          <div className="gnss-chapter-copy">
+            <span className="gnss-course-eyebrow">GNSS COURSE · PHASE 9</span>
+            <h1 id="gnss-postprocessing-course-title">GNSS測量</h1>
+            <p className="gnss-chapter-number">第9章</p>
+            <h2>{gnssPostprocessingCards[0].title}</h2>
+            <p>{gnssPostprocessingLesson.description}</p>
           </div>
-          <small>{progressPercent}%</small>
+          <div className="gnss-chapter-progress">
+            <div>
+              <span>利用可能な章の進捗</span>
+              <strong>
+                {completedLessonCount} / {totalLessonCount} 章
+              </strong>
+            </div>
+            <div
+              aria-label={`GNSS教材の進捗 ${progressPercent}%`}
+              aria-valuemax={100}
+              aria-valuemin={0}
+              aria-valuenow={progressPercent}
+              className="gnss-progress-track"
+              role="progressbar"
+            >
+              <span style={{ width: `${progressPercent}%` }} />
+            </div>
+          </div>
         </div>
-      </section>
 
-      <section className="gnss-card gnss-post-metadata">
         <div className="gnss-chapter-metadata">
           <div className="gnss-goal-panel">
             <span>到達目標</span>
@@ -210,22 +221,10 @@ function GnssPostprocessingLesson({
             </ul>
           </div>
         </div>
-      </section>
 
-      <section
-        aria-labelledby="gnss-post-card1-title"
-        className="gnss-card"
-        data-gnss-postprocessing-card="1"
-        data-testid="gnss-postprocessing-remains-card"
-      >
-        <GnssPostprocessingCardHeading
-          description="第8章で記録したP1について、数日後に観測そのものを再解析できる材料が残っているかを考えます。"
-          index={1}
-          label="静的分類"
-          titleId="gnss-post-card1-title"
-        />
         <div className="gnss-post-opening-question">
           <span>第8章からの接続</span>
+          <p>第8章で記録したP1について、数日後に観測そのものを再解析できる材料が残っているかを考えます。</p>
           <strong>P1の座標だけで、衛星ごとの観測値からもう一度解析できる？</strong>
           <p>答えは「できるとは限らない」です。</p>
         </div>
@@ -509,7 +508,7 @@ function GnssPostprocessingLesson({
         <div className="gnss-post-next-chapter">
           <span>第10章への問い</span>
           <strong>ネットワーク型RTKやCLASは、自前RTKやスタティックと何が違うのでしょうか？</strong>
-          <p>第10章は未実装です。本章では詳細を先取りしません。</p>
+          <p>第10章では、外部情報がどこで作られ、どう届き、受信機がどう利用するかを比べます。</p>
         </div>
         <GnssPostprocessingExternalLinks cardNumber={9} />
       </section>

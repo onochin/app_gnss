@@ -51,8 +51,9 @@ describe("GNSS測量 Phase 8 第8章", () => {
       "gnss-baseline-fix",
       "gnss-field-observation",
       "gnss-postprocessing",
+      "gnss-network-rtk-clas",
     ]);
-    expect(gnssLessons).toHaveLength(9);
+    expect(gnssLessons).toHaveLength(10);
     expect(gnssLessons.slice(0, 8).every((lesson) => lesson.number <= 8)).toBe(true);
   });
 

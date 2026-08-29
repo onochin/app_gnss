@@ -1,6 +1,6 @@
 # GNSS学習アプリ HANDOFF
 
-最終更新日：2026-08-24
+最終更新日：2026-08-30
 
 ## 1. アプリ概要
 
@@ -38,8 +38,9 @@
 | 7 | 自前RTK③ 基線解析とFIX | `gnss-baseline-fix` | available |
 | 8 | 自前RTK④ 現場観測と点検 | `gnss-field-observation` | available |
 | 9 | 観測データと後処理解析 | `gnss-postprocessing` | available |
+| 10 | ネットワーク型RTKとCLAS | `gnss-network-rtk-clas` | available |
 
-第10章以降は未実装。第9章末尾には第10章への問いだけを実装している。
+第11章以降は未実装。第9章末尾は第10章への導線としている。
 
 ## 4. 現在の重要仕様
 
@@ -597,4 +598,168 @@ GNSS測量教材 第9章 実装・ローカル検証完了
 第1章～第9章 available
 次はGNSS第9章のユーザー実機確認
 第10章以降には着手しない
+```
+
+## 15. 第9章 先頭章カードレイアウト修正（2026-08-25）
+
+### 15.1 変更内容
+
+- 第9章だけ分離されていた`gnss-lesson-header`、進捗カード、メタデータカード、カード1を、第7章・第8章と同じ1枚の`gnss-card gnss-chapter-card`へ統合した。
+- カード1内を、章見出し、利用可能な章の進捗、到達目標、主な用語、この章で確認すること、カード1本文の順にした。
+- 白背景上で章カード向けの淡色を使っていた「主な用語」「この章で確認すること」を暗色の章カード内へ戻し、既存の共通配色で読める状態にした。
+- 暗色の章カード直下へ移ったカード1の注意文だけ、既存章カードの説明色へ合わせた。
+- カード1の既存補助文と`静的分類`表示は、統合後の章カード内へ移して維持した。
+- GNSS完全スモークへ、第9章カード1が`gnss-chapter-card`であること、分離`gnss-lesson-header`がないこと、章レイアウトと章メタデータがカード1直下にあることの回帰確認を追加した。
+
+### 15.2 変更ファイル
+
+- `src/components/gnss/lessons/GnssPostprocessingLesson.tsx`
+- `src/styles.css`
+- `scripts/gnss-smoke.mjs`
+- `doc/HANDOFF.md`
+
+### 15.3 維持事項
+
+- 第9章の教材本文、9カードの順序、8確認問題、固定教材値、章ID、カードID、問題ID、選択肢ID、後処理カテゴリへの配置は変更していない。
+- 第1章～第8章の教材、章順、操作、固定値、計算、問題は変更していない。
+- 第1章～第9章の常時マウント、章往復時の状態保持、再読込み時の初期化、GNSS用`localStorage`なしを維持した。
+- 新規npmパッケージ、依存更新、外部API、実機通信、観測ファイル読込み、設定変更は追加していない。
+- `package.json`、`package-lock.json`、`vite.config.ts`、`.github/workflows/deploy.yml`は変更していない。
+
+### 15.4 最終ローカル検証
+
+- `npm run typecheck -- --pretty false`：成功、型エラー0件。
+- `npm test -- --reporter=verbose`：成功、10テストファイル・133テストすべて成功。
+- `npm run build`：成功、40 modules transformed。
+  - `dist/index.html`：0.58 kB、gzip 0.40 kB。
+  - CSS：387.84 kB、gzip 57.28 kB。
+  - JS：658.79 kB、gzip 173.80 kB。
+- `node --check scripts/gnss-smoke.mjs`：成功。
+- `git diff --check`：成功。
+- ローカルGNSS Playwright完全スモーク：成功。
+  - 第1章～第9章、確認問題67問、既存主要操作を確認した。
+  - 第9章カード1の統合章カード構造、9カード・8問、章往復時の状態保持、再読込み時の初期化を確認した。
+  - キーボード操作・可視フォーカス、localStorageキー不変を確認した。
+  - 1366px：`clientWidth=1366 / scrollWidth=1366`。
+  - 390px：`clientWidth=390 / scrollWidth=390`。
+  - コンソールエラー0件、ページ例外0件、外部API通信0件。
+- 第9章カード1を目視確認した。
+  - `/tmp/gnss-chapter9-layout-card1-1366-20260825.png`
+  - `/tmp/gnss-chapter9-layout-card1-390-20260825.png`
+  - 重大な文字重なり、欠け、ページ全体の横はみ出しなし。
+  - 「主な用語」「この章で確認すること」と各本文が暗色背景上で明瞭に読めることを確認した。
+
+### 15.5 警告・残る注意点
+
+- JSが500 kBを超える既知のVite警告は継続する。今回のレイアウト修正を理由とするコード分割・大規模最適化は実施していない。
+- Playwrightは既存共有Chromiumを一時参照した。新規ダウンロード、依存追加、恒久設定変更は行っていない。
+- 第10章以降、実習編本体、GNSS学習記録、GNSS用`localStorage`は未実装。
+
+### 15.6 次回開始地点
+
+```text
+GNSS測量教材 第9章 先頭章カードレイアウト修正・ローカル検証完了
+第1章～第9章 available
+次は第9章先頭レイアウトのユーザー実機確認
+第10章以降には着手しない
+```
+
+## 16. GNSS測量教材 第10章（2026-08-30）
+
+### 16.1 実装内容
+
+- 第10章「ネットワーク型RTKとCLAS」を、安定章ID`gnss-network-rtk-clas`で利用可能にした。
+- ネットワークRTKカテゴリへ配置し、第1章～第10章を`SurveyGnss`内で常時マウントする方式を維持した。
+- 要件書どおり次の9カードを実装した。
+  1. ネットワーク型RTKとCLASは、自前RTKと何が違う？
+  2. ネットワーク型RTKは何を基準にしている？
+  3. VRSとは？ ― 仮想基準点をつくる
+  4. VRSでは、P1の概略位置をどう伝える？
+  5. VRSでも基線を求めている？
+  6. P1とP2で基準局は変わる？
+  7. CLASはどこから補強情報を受ける？
+  8. CLASのPPP-RTKとは？
+  9. ネットワーク型RTKとCLAS、現場ではどう使い分ける？
+- 9カードはすべて静的な模式図・比較表・チェックとし、章の地図、トグル、スライダー、疑似接続操作は追加していない。
+- VRSを基準局網から生成する仮想基準点として説明し、概略位置と成果座標、実在基準局切替とVRS仮想点変更、VRS直接観測方式と他構成を区別した。
+- CLASをみちびきL6Dから補強情報を受けるPPP-RTKとして説明し、`CLAS ≠ ネットワーク型RTKのインターネットなし版`、`L6D ≠ P1までの測距信号`、`同じFIX表示 ≠ 同じ測位方式`を明示した。
+- 成果比較ではFIXだけでなく、測地系、元期・今期、高さ基準、基準・補強情報、観測環境を確認する構成にした。
+- 確認問題9問を実装し、正答位置を依頼どおり`B / B / C / B / A / C / B / B / C`とした。全36選択肢は意味を表す安定IDを持ち、全誤答に個別理由を実装した。
+- 国土地理院、Drogger、みちびきの公式一次情報を2026-08-30時点で再確認し、内容へ直接対応するカードだけに補助リンクを配置した。
+- 第9章末尾の「第10章は未実装」を、第10章で比較する内容を示す導線へ更新した。
+
+### 16.2 変更ファイル
+
+- `src/components/gnss/data/gnssNetworkRtkClas.ts`
+- `src/components/gnss/lessons/GnssNetworkRtkClasLesson.tsx`
+- `src/components/gnss/gnssCourse.ts`
+- `src/components/gnss/gnssNavigation.ts`
+- `src/components/gnss/SurveyGnss.tsx`
+- `src/components/gnss/types.ts`
+- `src/components/gnss/lessons/GnssPostprocessingLesson.tsx`
+- `src/styles.css`
+- `src/tests/gnssNetworkRtkClas.test.ts`
+- `src/tests/gnssNavigation.test.ts`
+- `src/tests/gnssOwnBaseStation.test.ts`
+- `src/tests/gnssCorrectionDelivery.test.ts`
+- `src/tests/gnssBaselineFix.test.ts`
+- `src/tests/gnssFieldObservation.test.ts`
+- `src/tests/gnssPostprocessing.test.ts`
+- `scripts/gnss-smoke.mjs`
+- `README.md`
+- `doc/HANDOFF.md`
+
+### 16.3 維持事項
+
+- 第1章～第9章の教材本文、カード順、操作、固定値、計算、問題ID、選択肢IDを維持した。第9章は既存の先頭章カードレイアウト差分を保持したまま、末尾の第10章接続文だけ現在状態へ更新した。
+- 第1章～第10章の常時マウント、章往復時のReact状態保持、ブラウザ再読込み時の初期化を維持した。
+- GNSS用`localStorage`、外部API、実機通信、観測ファイル読込み、Ntrip実接続、VRS生成・PPP-RTK計算エンジンは追加していない。
+- 第11章以降と実習編「ネットワークRTKの基準局・VRS仮想点を確認する」は未実装。
+- 新規npmパッケージ、依存更新、Pages設定変更は行っていない。`package.json`、`package-lock.json`、`vite.config.ts`、`.github/workflows/deploy.yml`は変更していない。
+
+### 16.4 最終ローカル検証
+
+- `npm run typecheck -- --pretty false`：成功、型エラー0件。
+- `npm test -- --reporter=verbose`：成功、11テストファイル・145テストすべて成功。
+- `npm run build`：成功、42 modules transformed。
+  - `dist/index.html`：0.58 kB、gzip 0.41 kB。
+  - CSS：392.74 kB、gzip 58.04 kB。
+  - JS：693.79 kB、gzip 182.13 kB。
+- `npm run build -- --mode github-pages`：成功、42 modules transformed。
+  - `dist/index.html`：0.59 kB、gzip 0.42 kB。
+  - CSS：392.74 kB、gzip 58.04 kB。
+  - JS：693.79 kB、gzip 182.13 kB。
+- `node --check scripts/gnss-smoke.mjs`：成功。
+- `git diff --check`：成功。
+- ローカルGNSS Playwright完全スモーク：成功。
+  - 第1章～第10章、確認問題76問、既存主要操作を確認した。
+  - 第10章9カード、操作カードなし、章の地図なし、公式リンク、正答位置、誤答固有理由、正答時の説明重複なしを確認した。
+  - 章往復時の状態保持、再読込み時の初期化を確認した。
+  - キーボード操作・可視フォーカス、localStorageキー不変を確認した。
+  - 1366px：`clientWidth=1366 / scrollWidth=1366`。
+  - 390px：`clientWidth=390 / scrollWidth=390`。比較表はカード内スクロールとし、ページ全体の横はみ出しなし。
+  - `NaN`、`Infinity`、`undefined`の画面表示なし。
+  - コンソールエラー0件、ページ例外0件、実行時外部API通信0件。
+- 第10章カード1・7・9を1366pxと390pxで目視確認した。
+  - `/tmp/gnss-chapter10-card1-1366-20260830.png`
+  - `/tmp/gnss-chapter10-card7-1366-20260830.png`
+  - `/tmp/gnss-chapter10-card9-1366-20260830.png`
+  - `/tmp/gnss-chapter10-card1-390-20260830.png`
+  - `/tmp/gnss-chapter10-card7-390-20260830.png`
+  - `/tmp/gnss-chapter10-card9-390-20260830.png`
+  - 重大な文字重なり・欠けなし。
+
+### 16.5 警告・残る注意点
+
+- JSが500 kBを超える既知のVite警告は継続する。警告だけを理由とするコード分割・大規模最適化は実施していない。
+- Playwrightは既存共有Chromiumを一時参照した。新規ダウンロード、依存追加、恒久設定変更は行っていない。
+- ネットワーク型RTKやCLASのサービス仕様・アプリ画面・QZSS仕様版は変わり得るため、実習編の正式要件化時に公式一次情報を再確認する。
+
+### 16.6 次回開始地点
+
+```text
+GNSS測量教材 第10章 実装・ローカル検証完了
+第1章～第10章 available
+次はGNSS第10章のユーザー実機確認
+第11章以降・第10章実習編には着手しない
 ```

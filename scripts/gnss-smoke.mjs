@@ -75,11 +75,17 @@ try {
   const postProcessingCategoryToggle = lessonNavigation.getByRole("button", {
     name: /^後処理/,
   });
+  const networkRtkCategoryToggle = lessonNavigation.getByRole("button", {
+    name: /^ネットワークRTK/,
+  });
   const chapterEightNavigationButton = lessonNavigation.locator(
     '[data-lesson-navigation-id="gnss-field-observation"]',
   );
   const chapterNineNavigationButton = lessonNavigation.locator(
     '[data-lesson-navigation-id="gnss-postprocessing"]',
+  );
+  const chapterTenNavigationButton = lessonNavigation.locator(
+    '[data-lesson-navigation-id="gnss-network-rtk-clas"]',
   );
   const desktopNavigationLayout = await lessonNavigation.evaluate((element) => {
     const rect = element.getBoundingClientRect();
@@ -92,9 +98,10 @@ try {
   assert(
     (await categoryToggles.count()) === 7 &&
       (await lessonNavigation.locator("[data-lesson-navigation-id]").count()) ===
-        9 &&
+        10 &&
       (await chapterEightNavigationButton.count()) === 1 &&
       (await chapterNineNavigationButton.count()) === 1 &&
+      (await chapterTenNavigationButton.count()) === 1 &&
       (await lessonNavigation
         .locator('[data-lesson-navigation-id="gnss-overview"]')
         .getAttribute("aria-current")) === "page" &&
@@ -150,13 +157,13 @@ try {
     name: "この章を理解できた",
   });
   assert(
-    await overviewLesson.getByText("0 / 9 章", { exact: true }).isVisible(),
-    "GNSS教材の初期進捗が0 / 9章ではありません。",
+    await overviewLesson.getByText("0 / 10 章", { exact: true }).isVisible(),
+    "GNSS教材の初期進捗が0 / 10章ではありません。",
   );
   await understoodButton.click();
   assert(
-    await overviewLesson.getByText("1 / 9 章", { exact: true }).isVisible(),
-    "GNSS第1章の理解済み進捗が1 / 9章になりません。",
+    await overviewLesson.getByText("1 / 10 章", { exact: true }).isVisible(),
+    "GNSS第1章の理解済み進捗が1 / 10章になりません。",
   );
 
   const representativeCaseCard = page.getByTestId("gnss-purpose-card");
@@ -397,7 +404,7 @@ try {
   });
   await observationsUnderstoodButton.click();
   assert(
-    await observationsLesson.getByText("2 / 9 章", { exact: true }).isVisible(),
+    await observationsLesson.getByText("2 / 10 章", { exact: true }).isVisible(),
     "GNSS第2章の理解済み操作で進捗が2 / 9章になりません。",
   );
 
@@ -781,7 +788,7 @@ try {
   );
   await coordinateHeightUnderstoodButton.click();
   assert(
-    await coordinateHeightLesson.getByText("3 / 9 章", { exact: true }).isVisible(),
+    await coordinateHeightLesson.getByText("3 / 10 章", { exact: true }).isVisible(),
     "GNSS第3章の理解済み操作で進捗が3 / 9章になりません。",
   );
 
@@ -1188,7 +1195,7 @@ try {
   await positioningMethodsUnderstoodButton.click();
   assert(
     await positioningMethodsLesson
-      .getByText("4 / 9 章", { exact: true })
+      .getByText("4 / 10 章", { exact: true })
       .isVisible(),
     "GNSS第4章の理解済み操作で進捗が4 / 9章になりません。",
   );
@@ -1588,7 +1595,7 @@ try {
   );
   await ownBaseStationUnderstoodButton.click();
   assert(
-    await ownBaseStationLesson.getByText("5 / 9 章", { exact: true }).isVisible(),
+    await ownBaseStationLesson.getByText("5 / 10 章", { exact: true }).isVisible(),
     "GNSS第5章の理解済み操作で進捗が5 / 9章になりません。",
   );
 
@@ -1942,7 +1949,7 @@ try {
         .locator("[data-gnss-correction-card]")
         .count()) === 9 &&
       (await correctionDeliveryLesson
-        .getByText("5 / 9 章", { exact: true })
+        .getByText("5 / 10 章", { exact: true })
         .isVisible()),
     "GNSS第6章、9カード構成または進捗表示を確認できません。",
   );
@@ -2363,7 +2370,7 @@ try {
       (await baselineFixLesson.locator("[data-gnss-baseline-card]").count()) ===
         9 &&
       (await baselineFixLesson
-        .getByText("5 / 9 章", { exact: true })
+        .getByText("5 / 10 章", { exact: true })
         .isVisible()),
     "GNSS第7章、9カード構成、到達目標または進捗表示を確認できません。",
   );
@@ -2784,7 +2791,7 @@ try {
       (await fieldObservationLesson.locator("[data-gnss-field-card]").count()) ===
         9 &&
       (await fieldObservationLesson
-        .getByText("5 / 9 章", { exact: true })
+        .getByText("5 / 10 章", { exact: true })
         .isVisible()),
     "GNSS第8章、9カード構成、到達目標または進捗表示を確認できません。",
   );
@@ -3205,7 +3212,7 @@ try {
         .locator("[data-gnss-postprocessing-card]")
         .count()) === 9 &&
       (await postprocessingLesson
-        .getByText("5 / 9 章", { exact: true })
+        .getByText("5 / 10 章", { exact: true })
         .isVisible()),
     "GNSS第9章、9カード構成または進捗表示を確認できません。",
   );
@@ -3215,8 +3222,17 @@ try {
   );
   const postprocessingRemainsText = await postprocessingRemainsCard.innerText();
   assert(
-    (await postprocessingRemainsCard.locator("[data-saved-data-id]").count()) ===
-      3 &&
+    (await postprocessingRemainsCard.evaluate((card) =>
+      card.classList.contains("gnss-chapter-card"),
+    )) &&
+      (await postprocessingLesson.locator(":scope > .gnss-lesson-header").count()) ===
+        0 &&
+      (await postprocessingRemainsCard.locator(":scope > .gnss-chapter-layout").count()) ===
+        1 &&
+      (await postprocessingRemainsCard.locator(":scope > .gnss-chapter-metadata").count()) ===
+        1 &&
+      (await postprocessingRemainsCard.locator("[data-saved-data-id]").count()) ===
+        3 &&
       (await postprocessingRemainsCard
         .getByTestId("gnss-postprocessing-save-check")
         .locator("ol li")
@@ -3225,10 +3241,11 @@ try {
         "計算された結果",
         "現場の観測記録",
         "GNSS観測データ",
+        "第8章で記録したP1について",
         "座標が保存されている",
         "再解析できる材料まで残したか",
       ].every((expectedText) => postprocessingRemainsText.includes(expectedText)),
-    "第9章カード1の3分類または現場保存チェックが不足しています。",
+    "第9章カード1の章カード構造、3分類または現場保存チェックが不足しています。",
   );
 
   const postprocessingObservationCard = page.getByTestId(
@@ -3380,9 +3397,9 @@ try {
         "観測値 ≠ 座標",
         "リアルタイム ≠ 後処理",
         "測地系 ≠ 座標の時点",
-        "第10章は未実装",
+        "第10章では、外部情報がどこで作られ",
       ].every((expectedText) => postprocessingSummaryText.includes(expectedText)),
-    "第9章カード9の全体フロー、3大メッセージまたは第10章境界が不足しています。",
+    "第9章カード9の全体フロー、3大メッセージまたは第10章への接続が不足しています。",
   );
 
   assert(
@@ -3484,6 +3501,121 @@ try {
     "GNSS第9章の確認問題が8問ではありません。",
   );
 
+  await networkRtkCategoryToggle.click();
+  assert(
+    (await networkRtkCategoryToggle.getAttribute("aria-expanded")) === "true" &&
+      (await chapterTenNavigationButton.isVisible()),
+    "ネットワークRTKカテゴリを開けないか、第10章が利用可能ではありません。",
+  );
+  await chapterTenNavigationButton.click();
+  const networkRtkClasLesson = page.locator(
+    '[data-lesson-id="gnss-network-rtk-clas"]',
+  );
+  const networkCards = networkRtkClasLesson.locator("[data-gnss-network-card]");
+  assert(
+    (await networkRtkClasLesson.isVisible()) &&
+      (await networkCards.count()) === 9 &&
+      (await networkCards.getByRole("button").count()) === 0 &&
+      (await networkRtkClasLesson.locator(".gnss-correction-map").count()) === 0,
+    "第10章9カード、全カード静的、章の地図なしの条件を満たしません。",
+  );
+  const networkCardTexts = await Promise.all(
+    Array.from({ length: 9 }, (_, index) =>
+      networkCards.nth(index).innerText(),
+    ),
+  );
+  const expectedNetworkCardTexts = [
+    ["自前RTK", "ネットワーク型RTK", "CLAS", "インターネットなし版"],
+    ["電子基準点等A", "配信サービス側", "移動局P1自身のGNSS観測"],
+    ["仮想基準点", "物理的なGNSS受信機", "適当な架空データではありません"],
+    ["NMEA GGA等", "概略位置", "最終的に得たいcm級の成果座標"],
+    ["VRS直接観測", "仮想基準点V → P1", "すべてのVRS"],
+    ["ケースA：同じ基準側", "ケースB：基準側が変わる", "同一基準局座標が必要"],
+    ["CLAS補強情報を生成", "みちびき", "L6D", "測距信号"],
+    ["PPP-RTK", "衛星軌道", "VRS", "同じ測位方式"],
+    ["携帯通信が安定", "携帯圏外・上空視界良好", "元期 / 今期", "高さ基準"],
+  ];
+  assert(
+    expectedNetworkCardTexts.every((expectedTexts, index) =>
+      expectedTexts.every((text) => networkCardTexts[index]?.includes(text)),
+    ),
+    "第10章各カードの中心メッセージまたは比較要素が不足しています。",
+  );
+  const networkExternalLinks = networkRtkClasLesson.locator(
+    ".gnss-network-external-links a",
+  );
+  assert(
+    (await networkExternalLinks.count()) === 12 &&
+      (await networkExternalLinks.evaluateAll((links) =>
+        links.every((link) => link.getAttribute("href")?.startsWith("https://")),
+      )),
+    "第10章のカード別公式リンク数またはhrefが正しくありません。",
+  );
+
+  const networkQuestionIds = [
+    "gnss-network-rtk-clas-q01-own-vs-external",
+    "gnss-network-rtk-clas-q02-network-reference",
+    "gnss-network-rtk-clas-q03-vrs",
+    "gnss-network-rtk-clas-q04-vrs-position",
+    "gnss-network-rtk-clas-q05-vrs-baseline",
+    "gnss-network-rtk-clas-q06-reference-change",
+    "gnss-network-rtk-clas-q07-clas-delivery",
+    "gnss-network-rtk-clas-q08-ppp-rtk",
+    "gnss-network-rtk-clas-q09-result-comparison",
+  ];
+  const networkCorrectOptionIndexes = [1, 1, 2, 1, 0, 2, 1, 1, 2];
+  const networkCorrectOptionLetters = ["B", "B", "C", "B", "A", "C", "B", "B", "C"];
+  const networkQuestionOne = page.getByTestId(
+    `gnss-quiz-question-${networkQuestionIds[0]}`,
+  );
+  const networkQuestionOneOptions = networkQuestionOne.locator(
+    'input[type="radio"]',
+  );
+  await networkExternalLinks.last().focus();
+  await page.keyboard.press("Tab");
+  const networkQuizVisibleFocus = await hasVisibleKeyboardFocus(
+    networkQuestionOneOptions.nth(0),
+  );
+  await page.keyboard.press("Space");
+  const networkQuizKeyboardOperation =
+    await networkQuestionOneOptions.nth(0).isChecked();
+  await networkQuestionOne
+    .getByRole("button", { name: "回答を確認する", exact: true })
+    .click();
+  assert(
+    networkQuizVisibleFocus &&
+      networkQuizKeyboardOperation &&
+      (await networkQuestionOne.getByText("不正解です", { exact: true }).isVisible()) &&
+      (await networkQuestionOne.getByText("正解：B", { exact: true }).isVisible()) &&
+      (await networkQuestionOne.getByRole("heading", { name: "Aを選んだ場合の解説", exact: true }).isVisible()),
+    "第10章問1のキーボード操作、誤答固有理由または正解文字が正しくありません。",
+  );
+  for (const [questionIndex, questionId] of networkQuestionIds.entries()) {
+    const question = page.getByTestId(`gnss-quiz-question-${questionId}`);
+    const correctOptionIndex = networkCorrectOptionIndexes[questionIndex];
+    const correctOptionLetter = networkCorrectOptionLetters[questionIndex];
+    assert(
+      correctOptionIndex !== undefined && correctOptionLetter !== undefined,
+      `${questionId}の正答位置データがありません。`,
+    );
+    await question.locator('input[type="radio"]').nth(correctOptionIndex).check();
+    await question.getByRole("button", { name: "回答を確認する", exact: true }).click();
+    const feedback = question.locator(".gnss-quiz-feedback");
+    assert(
+      (await feedback.getByText("正解です", { exact: true }).isVisible()) &&
+        (await feedback.getByText(`正解：${correctOptionLetter}`, { exact: true }).isVisible()) &&
+        (await feedback.locator(".gnss-quiz-selected-explanation").count()) === 0,
+      `${questionId}の正答表示または重複のない解説が正しくありません。`,
+    );
+  }
+  assert(
+    (await networkRtkClasLesson
+      .getByTestId("gnss-network-quiz-panel")
+      .locator(".gnss-quiz-question")
+      .count()) === 9,
+    "GNSS第10章の確認問題が9問ではありません。",
+  );
+
   await lessonNavigation
     .getByRole("button", { name: /第1章.*GNSS測量の全体像/ })
     .click();
@@ -3495,7 +3627,7 @@ try {
         .getAttribute("aria-pressed")) === "true" &&
       (await p1Result.isVisible()) &&
       (await questionThree.getByText("正解", { exact: true }).isVisible()) &&
-      (await overviewLesson.getByText("5 / 9 章", { exact: true }).isVisible()),
+      (await overviewLesson.getByText("5 / 10 章", { exact: true }).isVisible()),
     "第4章から戻ったときにGNSS第1章の状態が保持されません。",
   );
   await chapterTwoNavigationButton.click();
@@ -3638,10 +3770,23 @@ try {
         .isVisible()),
     "GNSS章往復後に第9章の問題状態が保持されません。",
   );
+  await chapterTenNavigationButton.click();
+  assert(
+    (await networkRtkClasLesson.isVisible()) &&
+      (await networkRtkClasLesson
+        .getByTestId("gnss-network-quiz-panel")
+        .locator(".gnss-quiz-feedback")
+        .count()) === 9 &&
+      (await page
+        .getByTestId(`gnss-quiz-question-${networkQuestionIds[8]}`)
+        .getByText("正解です", { exact: true })
+        .isVisible()),
+    "GNSS章往復後に第10章の問題状態が保持されません。",
+  );
 
   const desktopMetrics = await getPageMetrics(page);
   assert(
-    (await postprocessingLesson.isVisible()) &&
+    (await networkRtkClasLesson.isVisible()) &&
       desktopMetrics.scrollWidth <= desktopMetrics.clientWidth,
     `GNSS教材が1366px幅で横方向にはみ出しています: ${JSON.stringify(desktopMetrics)}`,
   );
@@ -3694,6 +3839,20 @@ try {
       await postprocessingSummaryCard.screenshot({
         path: "/tmp/gnss-chapter9-card9-1366-20260824.png",
       });
+      await chapterTenNavigationButton.click();
+      await page.screenshot({
+        fullPage: true,
+        path: "/tmp/gnss-chapter10-full-1366-20260830.png",
+      });
+      await networkCards.nth(0).screenshot({
+        path: "/tmp/gnss-chapter10-card1-1366-20260830.png",
+      });
+      await networkCards.nth(6).screenshot({
+        path: "/tmp/gnss-chapter10-card7-1366-20260830.png",
+      });
+      await networkCards.nth(8).screenshot({
+        path: "/tmp/gnss-chapter10-card9-1366-20260830.png",
+      });
     } finally {
       await screenshotStyle.evaluate((style) => style.remove());
     }
@@ -3739,7 +3898,7 @@ try {
         .getByTestId(`gnss-quiz-question-${observationQuestionIds[6]}`)
         .getByText("正解", { exact: true })
         .isVisible()) &&
-      (await observationsLesson.getByText("5 / 9 章", { exact: true }).isVisible()),
+      (await observationsLesson.getByText("5 / 10 章", { exact: true }).isVisible()),
     "章往復後にGNSS第2章の操作・問題・理解状態が保持されません。",
   );
   await chapterThreeNavigationButton.click();
@@ -3818,6 +3977,15 @@ try {
         .count()) === 8,
     "既存章回帰後にGNSS第9章の問題状態が保持されません。",
   );
+  await chapterTenNavigationButton.click();
+  assert(
+    (await networkRtkClasLesson.isVisible()) &&
+      (await networkRtkClasLesson
+        .getByTestId("gnss-network-quiz-panel")
+        .locator(".gnss-quiz-feedback")
+        .count()) === 9,
+    "既存章回帰後にGNSS第10章の問題状態が保持されません。",
+  );
 
   const storageKeysAfterGnssOperations = await page.evaluate(() =>
     Object.keys(window.localStorage).sort(),
@@ -3859,20 +4027,21 @@ try {
       (await lessonNavigation.getByText("基礎編", { exact: true }).isVisible()) &&
       (await lessonNavigation.getByText("基準局RTK", { exact: true }).isVisible()) &&
       (await chapterEightNavigationButton.isVisible()) &&
-      (await chapterNineNavigationButton.isVisible()),
-    "390px幅の章選択を開いてカテゴリまたは利用可能な第8・9章を確認できません。",
+      (await chapterNineNavigationButton.isVisible()) &&
+      (await chapterTenNavigationButton.isVisible()),
+    "390px幅の章選択を開いてカテゴリまたは利用可能な第8～10章を確認できません。",
   );
 
   assert(
-    (await postprocessingLesson.isVisible()) &&
-      (await postprocessingLesson
-        .locator("[data-gnss-postprocessing-card]")
+    (await networkRtkClasLesson.isVisible()) &&
+      (await networkRtkClasLesson
+        .locator("[data-gnss-network-card]")
         .count()) === 9 &&
       (await page
-        .getByTestId(`gnss-quiz-question-${postprocessingQuestionIds[7]}`)
+        .getByTestId(`gnss-quiz-question-${networkQuestionIds[8]}`)
         .getByText("正解です", { exact: true })
         .isVisible()),
-    "390px幅で第9章9カード・確認問題結果を表示できません。",
+    "390px幅で第10章9カード・確認問題結果を表示できません。",
   );
   await chapterFourNavigationButton.click();
   assert(
@@ -4076,6 +4245,34 @@ try {
       }),
     ),
   );
+  await chapterTenNavigationButton.click();
+  const mobileNetworkCardsVisible = await networkCards.evaluateAll((cards) =>
+    cards.map((card) => {
+      const rect = card.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    }),
+  );
+  const mobileNetworkTableContainment = await networkRtkClasLesson
+    .locator(".gnss-network-table-wrap")
+    .evaluateAll((elements) =>
+      elements.map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          clientWidth: element.clientWidth,
+          scrollWidth: element.scrollWidth,
+          withinViewport:
+            rect.left >= -1 && rect.right <= window.innerWidth + 1,
+        };
+      }),
+    );
+  const mobileNetworkControls = await Promise.all(
+    [networkQuestionOneOptions.nth(networkCorrectOptionIndexes[0])].map(
+      async (control) => ({
+        enabled: await control.isEnabled(),
+        visible: await control.isVisible(),
+      }),
+    ),
+  );
   const mobileMetrics = await getPageMetrics(page);
   const mobileOverflowElements = await page.evaluate(() =>
     Array.from(document.querySelectorAll(".gnss-page, .gnss-page *"))
@@ -4132,7 +4329,6 @@ try {
       mobileBaselineControls.every((control) => control.visible && control.enabled) &&
       mobileFieldCardsVisible.every(Boolean) &&
       mobileFieldControls.every((control) => control.visible && control.enabled) &&
-      (await postprocessingLesson.isVisible()) &&
       mobilePostprocessingCardsVisible.every(Boolean) &&
       mobilePostprocessingTableContainment.length === 3 &&
       mobilePostprocessingTableContainment.every(
@@ -4141,8 +4337,17 @@ try {
       mobilePostprocessingControls.every(
         (control) => control.visible && control.enabled,
       ) &&
+      (await networkRtkClasLesson.isVisible()) &&
+      mobileNetworkCardsVisible.every(Boolean) &&
+      mobileNetworkTableContainment.length === 5 &&
+      mobileNetworkTableContainment.every(
+        (table) => table.withinViewport && table.clientWidth <= table.scrollWidth,
+      ) &&
+      mobileNetworkControls.every(
+        (control) => control.visible && control.enabled,
+      ) &&
       mobileMetrics.scrollWidth <= mobileMetrics.clientWidth,
-    `GNSS第4章〜第8章回帰または第9章の390px表示が正しくありません: ${JSON.stringify({ mobileCoordinatePanelLayout, mobileOwnBaseStationVisible, mobileOwnBaseTableContainment, mobileCorrectionDeliveryVisible, mobileCorrectionTableContainment, mobileCorrectionControls, mobileBaselineCardsVisible, mobileBaselineTableContainment, mobileBaselineControls, mobileFieldCardsVisible, mobileFieldControls, mobilePostprocessingCardsVisible, mobilePostprocessingTableContainment, mobilePostprocessingControls, mobileMetrics, mobileOverflowElements })}`,
+    `GNSS第4章〜第9章回帰または第10章の390px表示が正しくありません: ${JSON.stringify({ mobileCoordinatePanelLayout, mobileOwnBaseStationVisible, mobileOwnBaseTableContainment, mobileCorrectionDeliveryVisible, mobileCorrectionTableContainment, mobileCorrectionControls, mobileBaselineCardsVisible, mobileBaselineTableContainment, mobileBaselineControls, mobileFieldCardsVisible, mobileFieldControls, mobilePostprocessingCardsVisible, mobilePostprocessingTableContainment, mobilePostprocessingControls, mobileNetworkCardsVisible, mobileNetworkTableContainment, mobileNetworkControls, mobileMetrics, mobileOverflowElements })}`,
   );
 
   if (saveScreenshots) {
@@ -4193,6 +4398,20 @@ try {
       await postprocessingSummaryCard.screenshot({
         path: "/tmp/gnss-chapter9-card9-390-20260824.png",
       });
+      await chapterTenNavigationButton.click();
+      await page.screenshot({
+        fullPage: true,
+        path: "/tmp/gnss-chapter10-full-390-20260830.png",
+      });
+      await networkCards.nth(0).screenshot({
+        path: "/tmp/gnss-chapter10-card1-390-20260830.png",
+      });
+      await networkCards.nth(6).screenshot({
+        path: "/tmp/gnss-chapter10-card7-390-20260830.png",
+      });
+      await networkCards.nth(8).screenshot({
+        path: "/tmp/gnss-chapter10-card9-390-20260830.png",
+      });
     } finally {
       await screenshotStyle.evaluate((style) => style.remove());
     }
@@ -4225,9 +4444,9 @@ try {
   assert(
       (await reloadedOverviewLesson.isVisible()) &&
       (await reloadedOverviewLesson
-        .getByText("0 / 9 章", { exact: true })
+        .getByText("0 / 10 章", { exact: true })
         .isVisible()),
-    "再読込み後にGNSS第1章と0 / 9章の初期進捗へ戻りません。",
+    "再読込み後にGNSS第1章と0 / 10章の初期進捗へ戻りません。",
   );
   await page.locator(".gnss-navigation-disclosure > summary").click();
   await page
@@ -4425,7 +4644,7 @@ try {
         .locator("[data-gnss-correction-card]")
         .count()) === 9 &&
       (await reloadedCorrectionDeliveryLesson
-        .getByText("0 / 9 章", { exact: true })
+        .getByText("0 / 10 章", { exact: true })
         .isVisible()) &&
       (await reloadedCorrectionFreshnessCard
         .getByTestId("gnss-correction-freshness-fresh")
@@ -4465,7 +4684,7 @@ try {
         .locator("[data-gnss-baseline-card]")
         .count()) === 9 &&
       (await reloadedBaselineFixLesson
-        .getByText("0 / 9 章", { exact: true })
+        .getByText("0 / 10 章", { exact: true })
         .isVisible()) &&
       (await reloadedBaselineCandidateCard
         .getByTestId("gnss-baseline-candidate-result")
@@ -4505,7 +4724,7 @@ try {
         .locator("[data-gnss-field-card]")
         .count()) === 9 &&
       (await reloadedFieldObservationLesson
-        .getByText("0 / 9 章", { exact: true })
+        .getByText("0 / 10 章", { exact: true })
         .isVisible()) &&
       (await reloadedFieldRefixResult.getAttribute("data-repeat-case-id")) ===
         "repeatable" &&
@@ -4541,13 +4760,39 @@ try {
         .locator("[data-gnss-postprocessing-card]")
         .count()) === 9 &&
       (await reloadedPostprocessingLesson
-        .getByText("0 / 9 章", { exact: true })
+        .getByText("0 / 10 章", { exact: true })
         .isVisible()) &&
       (await reloadedPostprocessingLesson
         .getByTestId("gnss-postprocessing-quiz-panel")
         .locator(".gnss-quiz-feedback")
         .count()) === 0,
     "再読込み後にGNSS第9章の問題状態が初期化されません。",
+  );
+
+  await page
+    .locator('[data-gnss-category-id="network-rtk"]')
+    .getByRole("button", { name: /ネットワークRTK/ })
+    .click();
+  await page
+    .locator(".gnss-lesson-navigation")
+    .locator('[data-lesson-navigation-id="gnss-network-rtk-clas"]')
+    .click();
+  const reloadedNetworkRtkClasLesson = page.locator(
+    '[data-lesson-id="gnss-network-rtk-clas"]',
+  );
+  assert(
+    (await reloadedNetworkRtkClasLesson.isVisible()) &&
+      (await reloadedNetworkRtkClasLesson
+        .locator("[data-gnss-network-card]")
+        .count()) === 9 &&
+      (await reloadedNetworkRtkClasLesson
+        .getByText("0 / 10 章", { exact: true })
+        .isVisible()) &&
+      (await reloadedNetworkRtkClasLesson
+        .getByTestId("gnss-network-quiz-panel")
+        .locator(".gnss-quiz-feedback")
+        .count()) === 0,
+    "再読込み後にGNSS第10章の問題状態が初期化されません。",
   );
 
   const storageKeysAfterReload = await page.evaluate(() =>
@@ -4588,6 +4833,7 @@ try {
           "gnss-baseline-fix",
           "gnss-field-observation",
           "gnss-postprocessing",
+          "gnss-network-rtk-clas",
         ],
         representativeCase: "一般の調査・測量",
         workflowSteps: 9,
@@ -4617,6 +4863,8 @@ try {
         fieldObservationQuizQuestionsAnswered: 9,
         postprocessingCards: 9,
         postprocessingQuizQuestionsAnswered: 8,
+        networkRtkClasCards: 9,
+        networkRtkClasQuizQuestionsAnswered: 9,
         statePreservedAcrossLessons: true,
         stateResetAfterReload: true,
         keyboardOperation: true,
@@ -4651,6 +4899,8 @@ try {
           fieldQuizVisibleFocus,
         postprocessingKeyboardOperation: postprocessingQuizKeyboardOperation,
         postprocessingVisibleFocus: postprocessingQuizVisibleFocus,
+        networkRtkClasKeyboardOperation: networkQuizKeyboardOperation,
+        networkRtkClasVisibleFocus: networkQuizVisibleFocus,
         localStorageKeysUnchanged: true,
         desktopMetrics,
         mobileMetrics,

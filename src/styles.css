@@ -30,11 +30,330 @@
     0 8px 24px rgba(20, 48, 81, 0.07);
 }
 
+/* GNSS chapter 10: network RTK and CLAS */
+.gnss-network-rtk-clas-lesson .gnss-card > p {
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.gnss-network-opening-question,
+.gnss-network-external-links,
+.gnss-network-result-check {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(71, 196, 255, 0.26);
+  border-radius: 14px;
+  background: rgba(7, 31, 48, 0.54);
+}
+
+.gnss-network-opening-question span,
+.gnss-network-external-links > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #8bdcff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.gnss-network-opening-question strong {
+  color: #f4fbff;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.gnss-network-table-wrap {
+  max-width: 100%;
+  margin-top: 18px;
+  overflow-x: auto;
+  border: 1px solid rgba(39, 74, 97, 0.18);
+  border-radius: 13px;
+}
+
+.gnss-network-table-wrap table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  background: #fff;
+  color: #173246;
+  font-size: 13px;
+}
+
+.gnss-network-table-wrap th,
+.gnss-network-table-wrap td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #dce8ef;
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.gnss-network-table-wrap thead th {
+  background: #e8f5fb;
+  color: #0d4b68;
+}
+
+.gnss-network-table-wrap tbody th {
+  background: #f4f8fa;
+  white-space: nowrap;
+}
+
+.gnss-network-not-equal,
+.gnss-network-not-equal-grid > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.5fr);
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #efb563;
+  border-radius: 13px;
+  background: #fff7e9;
+  color: #53350b;
+  text-align: center;
+}
+
+.gnss-network-not-equal b,
+.gnss-network-not-equal-grid b {
+  color: #a94c29;
+  font-size: 22px;
+}
+
+.gnss-network-reference-diagram {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #eef8fc, #f8fbfd);
+  color: #14384d;
+}
+
+.gnss-network-reference-diagram > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.gnss-network-reference-diagram span,
+.gnss-network-reference-diagram strong {
+  padding: 9px 12px;
+  border: 1px solid #b8d8e8;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.gnss-network-reference-diagram b {
+  color: #267397;
+  font-size: 12px;
+}
+
+.gnss-network-static-flow {
+  display: grid;
+  gap: 7px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gnss-network-static-flow li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  position: relative;
+  padding: 11px 13px;
+  border: 1px solid #d7e7ef;
+  border-radius: 11px;
+  background: #f7fbfd;
+  color: #15394e;
+  font-size: 13px;
+}
+
+.gnss-network-static-flow li > span {
+  color: #17789f;
+  font-weight: 800;
+}
+
+.gnss-network-static-flow li > b {
+  position: absolute;
+  bottom: -13px;
+  left: 20px;
+  z-index: 1;
+  color: #17789f;
+}
+
+.gnss-network-misconceptions,
+.gnss-network-result-check ul {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: #27475a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.gnss-network-caution {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-left: 4px solid #d38b2c;
+  background: #fff8ed;
+  color: #5a421e;
+  font-size: 12px !important;
+}
+
+.gnss-network-baseline-pair,
+.gnss-network-case-grid,
+.gnss-network-switch-grid,
+.gnss-network-field-cases {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.gnss-network-baseline-pair article,
+.gnss-network-case-grid > article,
+.gnss-network-switch-grid article,
+.gnss-network-field-cases article {
+  padding: 15px;
+  border: 1px solid #d5e5ed;
+  border-radius: 13px;
+  background: #f7fbfd;
+  color: #17384b;
+}
+
+.gnss-network-baseline-pair span,
+.gnss-network-switch-grid span,
+.gnss-network-field-cases span {
+  display: block;
+  margin-bottom: 7px;
+  color: #297397;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-network-case-grid .gnss-network-static-flow {
+  margin-top: 10px;
+}
+
+.gnss-network-case-grid h3 {
+  margin: 0;
+  color: #154d68;
+  font-size: 14px;
+}
+
+.gnss-network-not-equal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.gnss-network-not-equal-grid > div {
+  margin-top: 0;
+}
+
+.gnss-network-correction-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.gnss-network-correction-grid span {
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: #e5f4fa;
+  color: #175671;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gnss-network-result-check {
+  background: #f3f9fc;
+  color: #17384b;
+}
+
+.gnss-network-result-check h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.gnss-network-result-check ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-left: 0;
+  list-style: none;
+}
+
+.gnss-network-external-links {
+  background: #f4fafc;
+  color: #17384b;
+}
+
+.gnss-network-external-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gnss-network-external-links a {
+  display: inline-flex;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid #b8d9e7;
+  border-radius: 9px;
+  color: #0d5b7d;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.gnss-network-external-links a:hover {
+  background: #e6f5fb;
+}
+
+.gnss-network-external-links a:focus-visible {
+  outline: 3px solid #ffcb66;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .gnss-network-not-equal,
+  .gnss-network-not-equal-grid > div,
+  .gnss-network-baseline-pair,
+  .gnss-network-case-grid,
+  .gnss-network-switch-grid,
+  .gnss-network-field-cases,
+  .gnss-network-not-equal-grid,
+  .gnss-network-result-check ul {
+    grid-template-columns: 1fr;
+  }
+
+  .gnss-network-not-equal b,
+  .gnss-network-not-equal-grid b {
+    transform: rotate(90deg);
+  }
+
+  .gnss-network-table-wrap table {
+    min-width: 560px;
+  }
+}
+
 /* GNSS 第9章：観測データと後処理解析 */
 .gnss-postprocessing-lesson .gnss-card > p {
   color: #294c66;
   font-size: 13px;
   line-height: 1.75;
+}
+
+.gnss-postprocessing-lesson .gnss-chapter-card > .gnss-post-caution {
+  color: #d8e8f3;
 }
 
 .gnss-post-opening-question,
